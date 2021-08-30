@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+	<title>RPG Test Thingy</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="js/break_eternity.js"></script>
+	<script src="js/playerControl.js"></script>
+	<script src="js/format.js"></script>
+	<script src="js/temp.js"></script>
+	<script src="js/game.js"></script>
+	<script src="js/v.js"></script>
+	
+	<script src="js/enemy_data.js"></script>
+	<script src="js/stage_data.js"></script>
+	<script src="js/main.js"></script>
+</head>
+<body onload="loadGame()">
+	<div id="app" style="background-color: black; color: white;">
+		<br><table>
+			<tr>
+				<td v-for="t in allTabs"><button v-if="tabUnlocks[t]()" v-bind:class="{smallw: true, unlocked: true, [t.toLowerCase().replaceAll(' ', '_')]: true}" v-on:click="tab = t;">{{t}}</button></td>
+			</tr>
+		</table>
+		<div v-if="tab=='Options'">
+			<table>
+				<tr>
+					<td><button class="unlocked options" onclick="toggleAutosave()">Autosave: {{player.autosave?"ON":"OFF"}}</button></td>
+					<td><button class="small unlocked options" onclick="save()">Save</button><br>
+					<button class="small unlocked options" onclick="importSave()">Import</button></td>
+					<td><button class="small unlocked" style="background-color: #820000;" onclick="hardReset()">HARD RESET</button><br>
+					<button class="small unlocked options" onclick="exportSave()">Export</button></td>
+				</tr>
+			</table>
+		</div>
+		<div v-if="tab=='Main'">
+			<br><br>
+			Level <b>{{formatWhole(tmp.lvl)}}</b><br>
+			XP: <b>{{formatWhole(player.xp)}} / {{formatWhole(tmp.nextLvl)}}</b><br><br>
+			HP: <b>{{formatWhole(tmp.hp.sub(player.damageTaken).max(0))}} / {{formatWhole(tmp.hp)}}</b><br>
+			DMG: <b>{{formatWhole(tmp.dmg)}}</b>, SPD: <b>{{format(tmp.spd)}}</b><br><br><br>
+			<button v-bind:class="{mini: true, unlocked: player.stage.gt(1), locked: player.stage.lte(1)}" onclick="prevStage()">&larr;</button>&nbsp;Stage <b>{{formatWhole(player.stage)}}</b>&nbsp;<button v-bind:class="{mini: true, unlocked: player.stage.lt(player.bestStage), locked: player.stage.gte(player.bestStage)}" onclick="nextStage()">&rarr;</button><br>
+			Defeated: <b>{{formatWhole(player.enemiesDefeated)}} / {{player.stage.eq(player.bestStage)?formatWhole(tmp.enemiesInStage):"&#8734;"}}</b><br><br>
+			<img v-bind:src="tmp.enemyData.img" style="width: 128px; height: 128px;"></img><br>
+			{{tmp.enemyData.name}}<br>
+			HP: <b>{{formatWhole(tmp.enemyTotalHP.sub(player.damageDealt).max(0))}} / {{formatWhole(tmp.enemyTotalHP)}}</b><br><br>
+		</div>
+		<div v-if="tab=='Trophies'">
+			<br><br>
+			<b>Selected: {{formatWhole(tmp.bestiaryChosen)}} / {{formatWhole(tmp.bestiaryLimit)}}</b>
+			<br><br><table style="display: flex;">
+				<tr style="display: flex; margin-bottom: 10px;" v-for="r in Math.ceil(Object.keys(player.bestiary).length/6)">
+					<td v-for="(value, id) in Object.keys(player.bestiary).reduce(function(result, key) { if (key>(6*(r-1))&&key<=r*6) result[key] = player.bestiary[key];return result; }, {})">
+						<button v-bind:class="{bestiaryDiv: true, unlocked: true, enabled: player.bestiaryChosen[id]}" v-on:click="toggleTrophy(id)">
+							<h4>{{ENEMY_DATA[id].name}} [{{formatWhole(value)}}]</h4>
+							{{ENEMY_DATA[id].trophyDesc()}}
+						</button><br>
+						<button v-if="player.bestiary[Number(id)+6]!==undefined" v-bind:class="{bestiaryDiv: true, short: true, unlocked: true, canbuy: Decimal.gte(player.bestiary[Number(id)+6]||0, getTrophyGenUpgCost(id))}" v-on:click="buyTrophyGenUpg(id)">
+							<h4 style="margin-top: 2px;">+{{formatWhole(player.bestiaryGenUpgs[id]||0)}} {{ENEMY_DATA[id].name}} Trophies/sec</h4>
+							Cost: {{formatWhole(getTrophyGenUpgCost(id))}} {{(ENEMY_DATA[Number(id)+6]!==undefined)?(ENEMY_DATA[Number(id)+6].name+" Trophies"):"???"}}
+						</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>

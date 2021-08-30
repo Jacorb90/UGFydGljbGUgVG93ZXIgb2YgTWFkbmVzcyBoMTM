@@ -1,0 +1,228 @@
+* {
+	font-family: Arvo;
+	text-align: center;
+	transition-duration: 0.2s;
+}
+
+*:focus { 
+	outline: thin dotted; 
+}
+
+.title {
+	font-family: 'Summit';
+	font-size: 60px;
+	font-weight: bold;
+}
+
+.smoltitle {
+	font-family: 'Summit';
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.beegtitle {
+	font-family: 'Summit';
+	font-size: 80px;
+	font-weight: bold;
+}
+
+.grand {
+	font-family: 'Averia Serif Libre', cursive;
+}
+
+html, body, #app {
+	overflow-x: hidden;
+	min-height: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+table, tr, .table {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+	flex-flow: column wrap;
+}
+
+tr, .tableRow {
+    flex-flow: row wrap;
+}
+
+.reallybigtxt {
+	font-size: 80px;
+	font-weight: bold;
+}
+
+.bigtxt {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.slightlyBigText {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.smalltxt {
+	font-size: 11px;
+}
+
+button {
+	border: solid 3px white;
+	background-color: white;
+    font-size: 14px;
+	cursor: default;
+	width: 100px;
+	height: 100px;
+}
+
+button.mini {
+	height: 25px;
+	width: 30px;
+	border-width: 1.5px;
+}
+
+button.small {
+	width: 75px;
+	height: 50px;
+}
+
+button.smallw {
+	width: 100px;
+	height: 50px;
+}
+
+button.big, button.grand {
+	width: 150px;
+	height: 150px;
+}
+
+button.reallyBig {
+	width: 200px;
+	height: 200px;
+}
+
+.autoDiv {
+	width: 200px;
+	height: 200px;
+	border: 1px solid white;
+	border-radius: 15%;
+}
+
+.locked {
+	background-color: #820000;
+	color: white;
+	cursor: not-allowed;
+}
+
+.unlocked {
+	background-color: #73755f;
+	color: white;
+	cursor: pointer;
+}
+
+.unlocked:hover {
+	filter: brightness(120%);
+	transform: scale(1.1);
+}
+
+.bought {
+	background-color: #13f23d;
+	color: black;
+	cursor: default;
+}
+
+.rigid {
+	background-color: #85ffc8;
+	border: 1px solid white;
+	border-radius: 0;
+	color: black;
+	font-family: 'Summit';
+	font-size: 42px;
+	height: 150px;
+	width: 300px;
+	cursor: pointer;
+}
+
+.rigid:hover {
+	filter: brightness(1.1);
+	transform: scale(1.1);
+}
+
+.slow {
+	transition-duration: 5s !important;
+}
+
+.outerBar {
+	height: 30px;
+	min-width: 50%;
+	width: 50%;
+	background-color: #fafafa;
+	margin-left: 25%;
+	border-radius: 5px;
+}
+
+.innerBar {
+	height: 30px;
+	background-color: #242424;
+	border-radius: 5px;
+	transform: scale(0.9);
+}
+
+.smolOuterBar {
+	height: 20px;
+	min-width: 50px;
+	width: 50px;
+	background-color: #fafafa;
+	border-radius: 5px;
+}
+
+.smolInnerBar {
+	height: 20px;
+	background-color: #242424;
+	border-radius: 5px;
+	transform: scale(0.9);
+}
+
+.nohover { cursor: default; }
+
+button .idloc {
+	opacity: 0;
+}
+
+button:hover .idloc {
+	opacity: 1;
+}
+
+button:focus .idloc {
+	opacity: 1;
+}
+
+button.unlocked.options {
+	background-color: #666666;
+}
+
+button.unlocked.trophies {
+	background-color: #006882;
+}
+
+.bestiaryDiv {
+	width: 125px;
+	height: 125px;
+	background-color: #693636;
+	color: white;
+}
+
+.bestiaryDiv.short {
+	height: 100px;
+}
+
+.bestiaryDiv.enabled {
+	background-color: #008221;
+}
+
+.bestiaryDiv.canbuy {
+	background-color: #008282;
+}
