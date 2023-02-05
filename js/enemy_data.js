@@ -95,6 +95,18 @@ const ENEMY_DATA = {
         trophyDesc() { return "Divides enemy healing by "+format(getTrophyEff(8)) },
         trophyEff(x) { return x.plus(1).log2().plus(1).log(4).plus(1) },
     },
+    9: {
+        id: 9,
+        name: "Tau",
+        hp: D(440),
+        xp: D(275),
+        dmg: D(60),
+        spd: D(3),
+        img: "images/tau.png",
+        special: ["agile"],
+        trophyDesc() { return format(getTrophyEff(9).times(100))+"% Critical Hit Chance (3x DMG)" },
+        trophyEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(5).plus(1).log10().plus(1))) }
+    }
 }
 
 function toggleTrophy(id) {

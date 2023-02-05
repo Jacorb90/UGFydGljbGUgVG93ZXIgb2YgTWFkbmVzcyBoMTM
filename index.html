@@ -43,7 +43,7 @@
 			<button v-bind:class="{mini: true, unlocked: player.stage.gt(1), locked: player.stage.lte(1)}" onclick="prevStage()">&larr;</button>&nbsp;Stage <b>{{formatWhole(player.stage)}}</b>&nbsp;<button v-bind:class="{mini: true, unlocked: player.stage.lt(player.bestStage), locked: player.stage.gte(player.bestStage)}" onclick="nextStage()">&rarr;</button><br>
 			Defeated: <b>{{formatWhole(player.enemiesDefeated)}} / {{player.stage.eq(player.bestStage)?formatWhole(tmp.enemiesInStage):"&#8734;"}}</b><br><br>
 			<img v-bind:src="tmp.enemyData.img" style="width: 128px; height: 128px;"></img><br>
-			{{tmp.enemyData.name}}<br>
+			{{tmp.enemyData.name}} {{tmp.stageData.rank.gt(1) ? ("[Rk "+ formatWhole(tmp.stageData.rank) +"]") : ""}}<br>
 			HP: <b>{{formatWhole(tmp.enemyTotalHP.sub(player.damageDealt).max(0))}} / {{formatWhole(tmp.enemyTotalHP)}}</b><br><br>
 		</div>
 		<div v-if="tab=='Trophies'">
@@ -54,7 +54,7 @@
 					<td v-for="(value, id) in Object.keys(player.bestiary).reduce(function(result, key) { if (key>(6*(r-1))&&key<=r*6) result[key] = player.bestiary[key];return result; }, {})">
 						<button v-bind:class="{bestiaryDiv: true, unlocked: true, enabled: player.bestiaryChosen[id]}" v-on:click="toggleTrophy(id)">
 							<h4>{{ENEMY_DATA[id].name}} [{{formatWhole(value)}}]</h4>
-							{{ENEMY_DATA[id].trophyDesc()}}
+							{{ENEMY_DATA[id].trophyDesc?.() ?? "???"}}
 						</button><br>
 						<button v-if="player.bestiary[Number(id)+6]!==undefined" v-bind:class="{bestiaryDiv: true, short: true, unlocked: true, canbuy: Decimal.gte(player.bestiary[Number(id)+6]||0, getTrophyGenUpgCost(id))}" v-on:click="buyTrophyGenUpg(id)">
 							<h4 style="margin-top: 2px;">+{{formatWhole(player.bestiaryGenUpgs[id]||0)}} {{ENEMY_DATA[id].name}} Trophies/sec</h4>

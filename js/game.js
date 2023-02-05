@@ -75,10 +75,14 @@ function gameLoop(diff) {
 	updateTemp();
 	if (player.enemyAttackCooldown.gte(Decimal.div(1, adjustEnemySPD(tmp.enemyData.spd)))) {
 		let bulk = player.enemyAttackCooldown.times(adjustEnemySPD(tmp.enemyData.spd)).floor();
-		player.damageTaken = player.damageTaken.plus(adjustEnemyDMG(tmp.enemyData.dmg).times(bulk));
+		player.damageTaken = player.damageTaken.plus(adjustEnemyDMG(tmp.enemyRealDMG).times(bulk));
 		player.enemyAttackCooldown = D(0);
-		if (tmp.enemyData.special.includes("heal")) player.damageDealt = player.damageDealt.sub(tmp.enemyData.dmg.times(bulk).div(player.bestiaryChosen[8] ? getTrophyEff(8) : 1)).max(0)
-	} else player.enemyAttackCooldown = player.enemyAttackCooldown.plus(diff);
+		if (tmp.enemyData.special.includes("heal")) player.damageDealt = player.damageDealt.sub(tmp.enemyRealDMG.times(bulk).div(player.bestiaryChosen[8] ? getTrophyEff(8) : 1)).max(0)
+	} else {
+		let cooldownD = D(diff);
+		if (tmp.enemyData.special.includes("agile")) cooldownD = cooldownD.times(player.damageDealt.div(tmp.enemyTotalHP).times(2).plus(1));
+		player.enemyAttackCooldown = player.enemyAttackCooldown.plus(cooldownD);
+	}
 	
 	if (player.damageTaken.gte(tmp.hp)) {
 		player.attackCooldown = D(0);
@@ -92,17 +96,17 @@ function gameLoop(diff) {
 	
 	if (player.attackCooldown.gte(Decimal.div(1, tmp.spd))) {
 		let bulk = player.attackCooldown.times(tmp.spd).floor();
-		player.damageDealt = player.damageDealt.plus(tmp.dmg.times(bulk));
+		player.damageDealt = player.damageDealt.plus(tmp.dmg.times(bulk).times(Decimal.lt(Math.random(), tmp.critChance.times(bulk)) ? tmp.critMult : 1));
 		player.attackCooldown = D(0);
 	} else if (!(tmp.enemyData.special.includes("stun") && Math.random()<.5)) player.attackCooldown = player.attackCooldown.plus(diff);
 	
 	if (player.damageDealt.gte(tmp.enemyTotalHP)) {
-		player.xp = player.xp.plus(tmp.enemyData.xp);
+		player.xp = player.xp.plus(tmp.enemyData.xp.times(tmp.stageData.mag));
 		player.damageDealt = D(0);
 		player.enemyAttackCooldown = D(0);
 		player.enemiesDefeated = player.enemiesDefeated.plus(1);
 		if (player.bestiaryChosen[003]) player.damageTaken = player.damageTaken.sub(getTrophyEff(003)).max(0);
-		player.bestiary[tmp.enemyData.id] = Decimal.add(player.bestiary[tmp.enemyData.id]||0, 1);
+		if (tmp.enemyData.trophyEff !== undefined) player.bestiary[tmp.enemyData.id] = Decimal.add(player.bestiary[tmp.enemyData.id]||0, tmp.stageData.mag);
 		if (player.enemiesDefeated.gte(tmp.enemiesInStage) && player.stage.eq(player.bestStage)) {
 			player.bestStage = player.bestStage.plus(1);
 		}

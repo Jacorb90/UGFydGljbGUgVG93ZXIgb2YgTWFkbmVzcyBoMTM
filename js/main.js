@@ -33,9 +33,10 @@ function nextStage() {
 function getEnemyData(stage) {
 	let totalStages = Object.keys(STAGE_DATA).length;
 	let activeStage = stage.sub(stage.sub(1).div(totalStages).floor().times(totalStages));
-	let magnification = Decimal.pow(1e100, stage.div(totalStages).max(1).sub(1));
+	let rank = D(1);
+	let mag = Decimal.pow(2.5, rank.sub(1)).times(stage.gt(totalStages) ? 1e6 : 1); // intentional hypermagnification go brrr
 	let data = STAGE_DATA[activeStage.toNumber()];
-	return {data: data, mag: magnification};
+	return {data: data, rank, mag};
 }
 
 function getHP() { 
