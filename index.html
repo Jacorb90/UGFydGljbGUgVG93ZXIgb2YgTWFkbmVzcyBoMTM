@@ -33,7 +33,11 @@
 					<td><button class="small unlocked" style="background-color: #820000;" onclick="hardReset()">HARD RESET</button><br>
 					<button class="small unlocked options" onclick="exportSave()">Export</button></td>
 				</tr>
-			</table>
+			</table><br><br>
+			<h3>Abilities</h3>
+			<div v-for="data in ABILITY_DATA">
+				<b v-bind:tooltip="data.desc">{{data.name}}</b><br>
+			</div>
 		</div>
 		<div v-if="tab=='Main'">
 			<br><br>

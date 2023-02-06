@@ -23,5 +23,5 @@ function updateTemp() {
 
 function bestStageLimitSC(n) {
 	if (n.lte(25)) return n;
-	return n.sqrt().times(5)
+	return n.pow(0.75).times(Math.sqrt(5))
 }

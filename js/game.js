@@ -77,10 +77,10 @@ function gameLoop(diff) {
 		let bulk = player.enemyAttackCooldown.times(adjustEnemySPD(tmp.enemyData.spd)).floor();
 		player.damageTaken = player.damageTaken.plus(adjustEnemyDMG(tmp.enemyRealDMG).times(bulk));
 		player.enemyAttackCooldown = D(0);
-		if (tmp.enemyData.special.includes("heal")) player.damageDealt = player.damageDealt.sub(tmp.enemyRealDMG.times(bulk).div(player.bestiaryChosen[8] ? getTrophyEff(8) : 1)).max(0)
+		if (tmp.enemyData.special.includes("heal") && (!player.bestiaryChosen[11] || (Math.random() < (1 - getTrophyEff(11).toNumber())))) player.damageDealt = player.damageDealt.sub(tmp.enemyRealDMG.times(bulk).div(player.bestiaryChosen[8] ? getTrophyEff(8) : 1)).max(0)
 	} else {
 		let cooldownD = D(diff);
-		if (tmp.enemyData.special.includes("agile")) cooldownD = cooldownD.times(player.damageDealt.div(tmp.enemyTotalHP).times(2).plus(1));
+		if (tmp.enemyData.special.includes("agile") && (!player.bestiaryChosen[11] || (Math.random() < (1 - getTrophyEff(11).toNumber())))) cooldownD = cooldownD.times(player.damageDealt.div(tmp.enemyTotalHP).times(2).plus(1));
 		player.enemyAttackCooldown = player.enemyAttackCooldown.plus(cooldownD);
 	}
 	
@@ -96,9 +96,14 @@ function gameLoop(diff) {
 	
 	if (player.attackCooldown.gte(Decimal.div(1, tmp.spd))) {
 		let bulk = player.attackCooldown.times(tmp.spd).floor();
-		player.damageDealt = player.damageDealt.plus(tmp.dmg.times(bulk).times(Decimal.lt(Math.random(), tmp.critChance.times(bulk)) ? tmp.critMult : 1));
+
+		const isCrit = Decimal.lt(Math.random(), tmp.critChance.times(bulk));
+		let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult : 1);
+		if (tmp.enemyData.special.includes("shield") && eDmg.lt(tmp.enemyTotalHP.div(10)) && !isCrit) eDmg = D(0);
+		
+		player.damageDealt = player.damageDealt.plus(eDmg);
 		player.attackCooldown = D(0);
-	} else if (!(tmp.enemyData.special.includes("stun") && Math.random()<.5)) player.attackCooldown = player.attackCooldown.plus(diff);
+	} else if (!(tmp.enemyData.special.includes("stun") && Math.random()<(.5 * (player.bestiaryChosen[11] ? (1 - getTrophyEff(11).toNumber()) : 1)))) player.attackCooldown = player.attackCooldown.plus(diff);
 	
 	if (player.damageDealt.gte(tmp.enemyTotalHP)) {
 		player.xp = player.xp.plus(tmp.enemyData.xp.times(tmp.stageData.mag));

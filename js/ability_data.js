@@ -18,5 +18,9 @@ const ABILITY_DATA = {
     mutator: {
         name: "Mutator",
         desc: "Enemy is immune to DMG/SPD reductions."
+    },
+    shield: {
+        name: "Shield",
+        desc: "Player attacks that deal less than 10% of the enemy's total HP do nothing (unless they are critical hits)."
     }
 }

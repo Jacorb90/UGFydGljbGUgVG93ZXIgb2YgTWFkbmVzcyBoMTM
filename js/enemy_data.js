@@ -118,6 +118,18 @@ const ENEMY_DATA = {
         special: ["stun", "mutator"],
         trophyDesc() { return "+"+format(getTrophyEff(10))+" Base DMG" },
         trophyEff(x) { return x.div(25).plus(1).log10().sqrt() }
+    },
+    11: {
+        id: 11,
+        name: "Muon Neutrino",
+        hp: D(27500),
+        xp: D(24000),
+        dmg: D(1000),
+        spd: D(1.5),
+        img: "images/muon_neutrino.png",
+        special: ["shield"],
+        trophyDesc() { return "Enemy Stun, Heal, & Agile abilities have a " + format(getTrophyEff(11).times(100)) + "% chance to fail" },
+        trophyEff(x) { return Decimal.sub(1, Decimal.div(1, x.div(2).plus(1).log10().plus(1))) }
     }
 }
 
