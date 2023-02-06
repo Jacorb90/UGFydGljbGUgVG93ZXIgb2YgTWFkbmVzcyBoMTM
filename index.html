@@ -44,7 +44,9 @@
 			Defeated: <b>{{formatWhole(player.enemiesDefeated)}} / {{player.stage.eq(player.bestStage)?formatWhole(tmp.enemiesInStage):"&#8734;"}}</b><br><br>
 			<img v-bind:src="tmp.enemyData.img" style="width: 128px; height: 128px;"></img><br>
 			{{tmp.enemyData.name}} {{tmp.stageData.rank.gt(1) ? ("[Rk "+ formatWhole(tmp.stageData.rank) +"]") : ""}}<br>
-			HP: <b>{{formatWhole(tmp.enemyTotalHP.sub(player.damageDealt).max(0))}} / {{formatWhole(tmp.enemyTotalHP)}}</b><br><br>
+			HP: <b>{{formatWhole(tmp.enemyTotalHP.sub(player.damageDealt).max(0))}} / {{formatWhole(tmp.enemyTotalHP)}}</b><br>
+			DMG: <b>{{formatWhole(adjustEnemyDMG(tmp.enemyRealDMG))}}</b>, SPD: <b>{{format(adjustEnemySPD(tmp.enemyData.spd))}}</b><br>
+			{{ tmp.enemyData.special.length == 0 ? "" : ("Abilities: " + tmp.enemyData.special.join(', ')) }}<br><br>
 		</div>
 		<div v-if="tab=='Trophies'">
 			<br><br>

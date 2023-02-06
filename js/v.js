@@ -19,6 +19,8 @@ function loadVue() {
 			toggleTrophy,
 			buyTrophyGenUpg,
 			getTrophyGenUpgCost,
+			adjustEnemyDMG,
+			adjustEnemySPD
         }
 	})
 

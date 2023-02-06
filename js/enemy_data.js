@@ -104,7 +104,7 @@ const ENEMY_DATA = {
         spd: D(3),
         img: "images/tau.png",
         special: ["agile"],
-        trophyDesc() { return format(getTrophyEff(9).times(100))+"% Critical Hit Chance (3x DMG)" },
+        trophyDesc() { return format(getTrophyEff(9).times(100))+"% Critical Hit Chance (5x DMG)" },
         trophyEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(5).plus(1).log10().plus(1))) }
     }
 }

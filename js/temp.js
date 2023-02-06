@@ -18,5 +18,5 @@ function updateTemp() {
 	tmp.enemyRealDMG = tmp.enemyData.dmg.times(tmp.stageData.mag);
 
 	tmp.critChance = player.bestiaryChosen[9] ? getTrophyEff(9) : D(0);
-	tmp.critMult = 3;
+	tmp.critMult = 5;
 }
