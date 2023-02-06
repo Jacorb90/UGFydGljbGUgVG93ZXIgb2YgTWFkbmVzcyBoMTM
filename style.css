@@ -216,7 +216,7 @@ button.unlocked.trophies {
 }
 
 .bestiaryDiv.short {
-	height: 100px;
+	height: 120px;
 }
 
 .bestiaryDiv.enabled {
@@ -225,4 +225,47 @@ button.unlocked.trophies {
 
 .bestiaryDiv.canbuy {
 	background-color: #008282;
+}
+
+[tooltip] {
+    position: relative;
+    z-index: 2;
+}
+
+[tooltip]:before,
+[tooltip]:after {
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+[tooltip]:before {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -80px;
+    padding: 7px;
+    width: 160px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 5%, 0.9);
+    color: #fff;
+    content: attr(tooltip);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+    transition-duration: .5s;
+}
+
+[tooltip]:hover:before,
+[tooltip]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
 }

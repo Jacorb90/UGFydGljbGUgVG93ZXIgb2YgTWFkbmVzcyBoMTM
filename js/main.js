@@ -32,10 +32,12 @@ function nextStage() {
 
 function getEnemyData(stage) {
 	let totalStages = Object.keys(STAGE_DATA).length;
-	let activeStage = stage.sub(stage.sub(1).div(totalStages).floor().times(totalStages));
-	let rank = D(stage.gt(totalStages) ? 16 : 1);
-	let mag = Decimal.pow(2.5, rank.sub(1)); // intentional hypermagnification go brrr
-	let data = STAGE_DATA[activeStage.toNumber()];
+	let activeStage = stage.sub(stage.sub(1).div(totalStages).floor().times(totalStages)).toNumber();
+
+	let data = STAGE_DATA[activeStage];
+	let rank = D(stage.gt(totalStages) ? 15 : 0).plus(Object.keys(STAGE_RANK_DATA).includes(activeStage.toString()) ? STAGE_RANK_DATA[activeStage][player.enemiesDefeated.toNumber()%data.length] : 1);
+
+	let mag = Decimal.pow(2.5, rank.sub(1));
 	return {data: data, rank, mag};
 }
 
@@ -46,7 +48,11 @@ function getHP() {
 }
 
 function getDMG() { 
-	let dmg = Decimal.pow(2, tmp.lvl.sub(1).sqrt()).plus(tmp.lvl.sub(2).max(0)).floor();
+	let dmg = tmp.lvl.sub(2).max(0);
+	if (player.bestiaryChosen[10]) dmg = dmg.plus(getTrophyEff(10));
+
+	dmg = Decimal.pow(2, tmp.lvl.sub(1).sqrt()).times(dmg);
+
 	if (player.bestiaryChosen[002]) dmg = dmg.times(getTrophyEff(002));
 
 	if (tmp.enemyData) if (tmp.enemyData.special.includes("weaken")) dmg = dmg.div(player.damageTaken.plus(1).log10().plus(1));
@@ -60,11 +66,15 @@ function getSPD() {
 }
 
 function adjustEnemyDMG(dmg) {
+	if (tmp.enemyData.special.includes("mutator")) return dmg;
+
 	if (player.bestiaryChosen[004]) dmg = dmg.div(getTrophyEff(004));
 	return dmg;
 }
 
 function adjustEnemySPD(spd) {
+	if (tmp.enemyData.special.includes("mutator")) return spd;
+
 	if (player.bestiaryChosen[006]) spd = spd.div(getTrophyEff(006));
 	return spd;
 }

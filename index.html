@@ -12,6 +12,7 @@
 	<script src="js/game.js"></script>
 	<script src="js/v.js"></script>
 	
+	<script src="js/ability_data.js"></script>
 	<script src="js/enemy_data.js"></script>
 	<script src="js/stage_data.js"></script>
 	<script src="js/main.js"></script>
@@ -46,7 +47,9 @@
 			{{tmp.enemyData.name}} {{tmp.stageData.rank.gt(1) ? ("[Rk "+ formatWhole(tmp.stageData.rank) +"]") : ""}}<br>
 			HP: <b>{{formatWhole(tmp.enemyTotalHP.sub(player.damageDealt).max(0))}} / {{formatWhole(tmp.enemyTotalHP)}}</b><br>
 			DMG: <b>{{formatWhole(adjustEnemyDMG(tmp.enemyRealDMG))}}</b>, SPD: <b>{{format(adjustEnemySPD(tmp.enemyData.spd))}}</b><br>
-			{{ tmp.enemyData.special.length == 0 ? "" : ("Abilities: " + tmp.enemyData.special.join(', ')) }}<br><br>
+			<span v-if="tmp.enemyData.special.length > 0">
+				Abilities: <span v-for="spec in tmp.enemyData.special" v-bind:tooltip="ABILITY_DATA[spec].desc">{{ ABILITY_DATA[spec].name }}; </span>
+			</span><br><br>
 		</div>
 		<div v-if="tab=='Trophies'">
 			<br><br>

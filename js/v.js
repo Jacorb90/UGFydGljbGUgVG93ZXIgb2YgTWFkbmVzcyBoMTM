@@ -20,7 +20,8 @@ function loadVue() {
 			buyTrophyGenUpg,
 			getTrophyGenUpgCost,
 			adjustEnemyDMG,
-			adjustEnemySPD
+			adjustEnemySPD,
+			ABILITY_DATA
         }
 	})
 

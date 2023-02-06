@@ -106,6 +106,18 @@ const ENEMY_DATA = {
         special: ["agile"],
         trophyDesc() { return format(getTrophyEff(9).times(100))+"% Critical Hit Chance (5x DMG)" },
         trophyEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(5).plus(1).log10().plus(1))) }
+    },
+    10: {
+        id: 10,
+        name: "Electron Neutrino",
+        hp: D(2990),
+        xp: D(3200),
+        dmg: D(400),
+        spd: D(2),
+        img: "images/electron_neutrino.png",
+        special: ["stun", "mutator"],
+        trophyDesc() { return "+"+format(getTrophyEff(10))+" Base DMG" },
+        trophyEff(x) { return x.div(25).plus(1).log10().sqrt() }
     }
 }
 
