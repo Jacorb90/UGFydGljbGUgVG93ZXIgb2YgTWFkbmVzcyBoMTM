@@ -22,5 +22,9 @@ const ABILITY_DATA = {
     shield: {
         name: "Shield",
         desc: "Player attacks that deal less than 10% of the enemy's total HP do nothing (unless they are critical hits)."
+    },
+    counter: {
+        name: "Counter",
+        desc: "Enemy has a 20% chance to counterattack the player when attacked."
     }
 }

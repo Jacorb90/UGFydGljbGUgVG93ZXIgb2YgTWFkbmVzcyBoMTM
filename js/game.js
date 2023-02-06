@@ -69,15 +69,32 @@ function hardReset() {
 	window.location.reload();
 }
 
+function playerAtk(bulk) {
+	const isCrit = Decimal.lt(Math.random(), tmp.critChance.times(bulk));
+	let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult : 1);
+	if (tmp.enemyData.special.includes("shield") && eDmg.lt(tmp.enemyTotalHP.div(10)) && !isCrit) eDmg = D(0);
+	
+	player.damageDealt = player.damageDealt.plus(eDmg);
+	player.attackCooldown = D(0);
+
+	if (tmp.enemyData.special.includes("counter") && Math.random() < 1 - Math.pow(0.8, bulk.toNumber())) enemyAtk(D(1));
+}
+
+function enemyAtk(bulk) {
+	player.damageTaken = player.damageTaken.plus(adjustEnemyDMG(tmp.enemyRealDMG).times(bulk));
+	player.enemyAttackCooldown = D(0);
+	if (tmp.enemyData.special.includes("heal") && (!player.bestiaryChosen[11] || (Math.random() < (1 - getTrophyEff(11).toNumber())))) {
+		player.damageDealt = player.damageDealt.sub(tmp.enemyRealDMG.times(bulk).div(player.bestiaryChosen[8] ? getTrophyEff(8) : 1)).max(0)
+	}
+}
+
 function gameLoop(diff) {
 	player.currTime = new Date().getTime();
 	
 	updateTemp();
 	if (player.enemyAttackCooldown.gte(Decimal.div(1, adjustEnemySPD(tmp.enemyData.spd)))) {
 		let bulk = player.enemyAttackCooldown.times(adjustEnemySPD(tmp.enemyData.spd)).floor();
-		player.damageTaken = player.damageTaken.plus(adjustEnemyDMG(tmp.enemyRealDMG).times(bulk));
-		player.enemyAttackCooldown = D(0);
-		if (tmp.enemyData.special.includes("heal") && (!player.bestiaryChosen[11] || (Math.random() < (1 - getTrophyEff(11).toNumber())))) player.damageDealt = player.damageDealt.sub(tmp.enemyRealDMG.times(bulk).div(player.bestiaryChosen[8] ? getTrophyEff(8) : 1)).max(0)
+		enemyAtk(bulk)
 	} else {
 		let cooldownD = D(diff);
 		if (tmp.enemyData.special.includes("agile") && (!player.bestiaryChosen[11] || (Math.random() < (1 - getTrophyEff(11).toNumber())))) cooldownD = cooldownD.times(player.damageDealt.div(tmp.enemyTotalHP).times(2).plus(1));
@@ -96,13 +113,7 @@ function gameLoop(diff) {
 	
 	if (player.attackCooldown.gte(Decimal.div(1, tmp.spd))) {
 		let bulk = player.attackCooldown.times(tmp.spd).floor();
-
-		const isCrit = Decimal.lt(Math.random(), tmp.critChance.times(bulk));
-		let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult : 1);
-		if (tmp.enemyData.special.includes("shield") && eDmg.lt(tmp.enemyTotalHP.div(10)) && !isCrit) eDmg = D(0);
-		
-		player.damageDealt = player.damageDealt.plus(eDmg);
-		player.attackCooldown = D(0);
+		playerAtk(bulk)
 	} else if (!(tmp.enemyData.special.includes("stun") && Math.random()<(.5 * (player.bestiaryChosen[11] ? (1 - getTrophyEff(11).toNumber()) : 1)))) player.attackCooldown = player.attackCooldown.plus(diff);
 	
 	if (player.damageDealt.gte(tmp.enemyTotalHP)) {
