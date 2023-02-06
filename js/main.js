@@ -48,7 +48,7 @@ function getHP() {
 }
 
 function getDMG() { 
-	let dmg = tmp.lvl.sub(2).max(0);
+	let dmg = tmp.lvl.sub(2).max(0).plus(1);
 	if (player.bestiaryChosen[10]) dmg = dmg.plus(getTrophyEff(10));
 
 	dmg = Decimal.pow(2, tmp.lvl.sub(1).sqrt()).times(dmg);
