@@ -10,7 +10,10 @@ function toPlaces(x, precision, maxAccepted) {
 function exponentialFormat(num, precision) {
 	let e = num.log10().floor()
 	let m = num.div(Decimal.pow(10, e))
-	if (m.gte(10)) {
+	if (m.lt(1)) {
+		m = m.times(10);
+		e = e.sub(1);
+	} else if (m.gte(10)) {
 		m = m.div(10);
 		e = e.plus(1);
 	} else if (m.gte(9.999999999)) {
@@ -77,6 +80,14 @@ function formatTime(decimal, precision=2) {
 	else if (decimal.lt(31556736)) return formatWhole(decimal.div(86400).floor())+"d "+format(decimal.div(3600).sub(decimal.div(86400).floor().times(24)).floor(), precision)+"h";
 	else if (decimal.lt(31556736000)) return formatWhole(decimal.div(31556736).floor())+"y "+format(decimal.div(86400).sub(decimal.div(31556736).floor().times(365.24)).floor(), precision)+"d";
 	else return formatWhole(decimal.div(31556736).floor())+"y"
+}
+
+function formatSmall(decimal) {
+	if (decimal.lt(0)) return "-" + formatSmall(decimal.neg());
+	if (decimal.eq(0)) return format(decimal, 2);
+	if (decimal.lt(0.1)) return exponentialFormat(decimal, 3);
+	if (decimal.lt(1)) return format(decimal, 3);
+	return format(decimal, 2);
 }
 
 function isFunc(f) {

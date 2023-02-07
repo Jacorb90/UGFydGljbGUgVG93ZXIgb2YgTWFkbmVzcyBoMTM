@@ -24,7 +24,7 @@ function loadGame() {
 	updateTemp();
 	loadVue();
 	
-	intervals.game = setInterval(function() { gameLoop(NaNCheck(Math.max((new Date().getTime() - player.currTime)/1000, 0))) }, 50)
+	intervals.game = setInterval(function() { gameLoop(0.05 /* NaNCheck(Math.max((new Date().getTime() - player.currTime)/1000, 0)) */) }, 50)
 	intervals.save = setInterval(function() { if (player.autosave) save(); }, 2500)
 }
 

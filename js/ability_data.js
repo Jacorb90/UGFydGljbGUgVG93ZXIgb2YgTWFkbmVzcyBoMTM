@@ -26,5 +26,9 @@ const ABILITY_DATA = {
     "counter": {
         name: "Counter",
         desc: "Enemy has a 40% chance to counterattack the player when attacked."
+    },
+    "strengthen": {
+        name: "Strengthen",
+        desc: "Strengthens the enemy's DMG based on enemy HP (lower HP -> strengthened more)."
     }
 }

@@ -156,7 +156,31 @@ const ENEMY_DATA = {
         img: "images/gluon.png",
         special: ["heal", "mutator", "counter"],
         trophyDesc() { return "Divide Enemy HP by " + format(getTrophyEff(13)) + ", but double Enemy SPD." },
-        trophyEff(x) { return x.div(10).plus(1).log10().plus(1) }
+        trophyEff(x) { return x.times(1.7).plus(1).log10().plus(1) }
+    },
+    14: {
+        id: 14,
+        name: "Photon",
+        hp: D(22000),
+        xp: D(33000),
+        dmg: D(2000),
+        spd: D(8),
+        img: "images/photon.png",
+        special: ["weaken", "stun"],
+        trophyDesc() { return "+" + format(getTrophyEff(14).sub(1).times(100)) + "% SPD, but divide DMG by " + format(getTrophyEff(14).pow(2/3).times(1.1)) + "." },
+        trophyEff(x) { return x.div(10).plus(1).log10().plus(1).pow(2) }
+    },
+    15: {
+        id: 15,
+        name: "Higgs",
+        hp: D(999999),
+        xp: D("2e6"),
+        dmg: D(500),
+        spd: D(1.6),
+        img: "images/higgs.png",
+        special: ["mutator", "strengthen"],
+        trophyDesc() { return "Generate " + formatSmall(getTrophyEff(15)) + " Field Particles per Trophy gained. [NOT IMPLEMENTED]" },
+        trophyEff(x) { return x.plus(1).root(10).sub(1).div(1e3) }
     }
 }
 

@@ -55,6 +55,7 @@ function getDMG() {
 
 	if (player.bestiaryChosen[002]) dmg = dmg.times(getTrophyEff(002));
 	if (player.bestiaryChosen[12] && player.damageTaken.gte(tmp.hp.times(0.6))) dmg = dmg.times(getTrophyEff(12));
+	if (player.bestiaryChosen[14]) dmg = dmg.div(getTrophyEff(14).pow(2/3).times(1.1));
 
 	if (tmp.enemyData) if (tmp.enemyData.special.includes("weaken")) dmg = dmg.div(player.damageTaken.plus(1).log10().plus(1));
 	return dmg;
@@ -63,10 +64,14 @@ function getDMG() {
 function getSPD() { 
 	let spd = tmp.lvl.plus(1).div(2);
 	if (player.bestiaryChosen[001]) spd = spd.plus(getTrophyEff(001));
+
+	if (player.bestiaryChosen[14]) spd = spd.times(getTrophyEff(14));
 	return spd;
 }
 
 function adjustEnemyDMG(dmg) {
+	if (tmp.enemyData.special.includes("strengthen")) dmg = dmg.times(player.damageDealt.plus(1).log10().plus(1));
+
 	if (tmp.enemyData.special.includes("mutator")) return dmg;
 
 	if (player.bestiaryChosen[004]) dmg = dmg.div(getTrophyEff(004));
