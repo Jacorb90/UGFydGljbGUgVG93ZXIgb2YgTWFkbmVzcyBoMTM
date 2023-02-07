@@ -17,7 +17,7 @@ const ABILITY_DATA = {
     },
     "mutator": {
         name: "Mutator",
-        desc: "Enemy is immune to DMG/SPD reductions."
+        desc: "Enemy is immune to HP/DMG/SPD reductions."
     },
     "shield": {
         name: "Shield",

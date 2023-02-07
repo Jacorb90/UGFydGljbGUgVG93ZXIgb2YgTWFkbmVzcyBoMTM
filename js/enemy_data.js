@@ -145,6 +145,18 @@ const ENEMY_DATA = {
         special: ["agile", "counter"],
         trophyDesc() { return "+" + format(getTrophyEff(12).sub(1).times(100)) + "% DMG when below 40% HP" },
         trophyEff(x) { return x.div(10).plus(1).log10().plus(1) }
+    },
+    13: {
+        id: 13,
+        name: "Gluon",
+        hp: D(122000),
+        xp: D(150000),
+        dmg: D(3000),
+        spd: D(2),
+        img: "images/gluon.png",
+        special: ["heal", "mutator", "counter"],
+        trophyDesc() { return "Divide Enemy HP by " + format(getTrophyEff(13)) + ", but double Enemy SPD." },
+        trophyEff(x) { return x.div(10).plus(1).log10().plus(1) }
     }
 }
 

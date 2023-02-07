@@ -74,8 +74,17 @@ function adjustEnemyDMG(dmg) {
 }
 
 function adjustEnemySPD(spd) {
+	if (player.bestiaryChosen[13]) spd = spd.times(2);
+
 	if (tmp.enemyData.special.includes("mutator")) return spd;
 
 	if (player.bestiaryChosen[006]) spd = spd.div(getTrophyEff(006));
 	return spd;
+}
+
+function adjustEnemyHP(hp) {
+	if (tmp.enemyData.special.includes("mutator")) return hp;
+
+	if (player.bestiaryChosen[13]) hp = hp.div(getTrophyEff(13));
+	return hp;
 }

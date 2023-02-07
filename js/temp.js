@@ -14,7 +14,7 @@ function updateTemp() {
 	tmp.stageData = getEnemyData(player.stage);
 	tmp.enemiesInStage = tmp.stageData.data.length;
 	tmp.enemyData = ENEMY_DATA[tmp.stageData.data[player.enemiesDefeated.toNumber()%tmp.stageData.data.length][0]];
-	tmp.enemyTotalHP = tmp.enemyData.hp.times(tmp.stageData.mag);
+	tmp.enemyTotalHP = adjustEnemyHP(tmp.enemyData.hp.times(tmp.stageData.mag));
 	tmp.enemyRealDMG = tmp.enemyData.dmg.times(tmp.stageData.mag);
 
 	tmp.critChance = player.bestiaryChosen[9] ? getTrophyEff(9) : D(0);
