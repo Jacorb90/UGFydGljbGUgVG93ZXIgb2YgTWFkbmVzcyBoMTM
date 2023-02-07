@@ -54,6 +54,7 @@ function getDMG() {
 	dmg = Decimal.pow(2, tmp.lvl.sub(1).sqrt()).times(dmg);
 
 	if (player.bestiaryChosen[002]) dmg = dmg.times(getTrophyEff(002));
+	if (player.bestiaryChosen[12] && player.damageTaken.gte(tmp.hp.times(0.6))) dmg = dmg.times(getTrophyEff(12));
 
 	if (tmp.enemyData) if (tmp.enemyData.special.includes("weaken")) dmg = dmg.div(player.damageTaken.plus(1).log10().plus(1));
 	return dmg;

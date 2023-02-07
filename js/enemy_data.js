@@ -33,7 +33,7 @@ const ENEMY_DATA = {
         img: "images/charm_quark.png",
         special: ["heal"],
         trophyDesc() { return "Heals "+format(getTrophyEff(003))+" HP per kill" },
-        trophyEff(x) { return x.plus(1).log2().times(5) },
+        trophyEff(x) { return x.plus(1).log2().times(5).times(x.div(1e4).plus(1).cbrt()) },
     },
     004: {
         id: 004,
@@ -57,7 +57,10 @@ const ENEMY_DATA = {
         img: "images/top_quark.png",
         special: [],
         trophyDesc() { return "+"+format(getTrophyEff(005).sub(1).times(100))+"% HP" },
-        trophyEff(x) { return x.div(5).plus(1).sqrt() },
+        trophyEff(x) { 
+            if (x.gte(1e5)) x = x.sqrt().times(Math.sqrt(1e5))
+            return x.div(5).plus(1).sqrt() 
+        },
     },
     006: {
         id: 006,
@@ -81,7 +84,7 @@ const ENEMY_DATA = {
         img: "images/electron.png",
         special: ["stun"],
         trophyDesc() { return "Heals "+format(getTrophyEff(007))+" HP per second" },
-        trophyEff(x) { return x.plus(1).log2().div(2) },
+        trophyEff(x) { return x.plus(1).log2().div(2).times(x.div(100).plus(1).root(4)) },
     },
     8: {
         id: 8,
@@ -130,6 +133,18 @@ const ENEMY_DATA = {
         special: ["shield"],
         trophyDesc() { return "Enemy Stun, Heal, & Agile abilities have a " + format(getTrophyEff(11).times(100)) + "% chance to fail" },
         trophyEff(x) { return Decimal.sub(1, Decimal.div(1, x.div(2).plus(1).log10().plus(1))) }
+    },
+    12: {
+        id: 12,
+        name: "Tau Neutrino",
+        hp: D(47200),
+        xp: D(42000),
+        dmg: D(4000),
+        spd: D(1.5),
+        img: "images/tau_neutrino.png",
+        special: ["agile", "counter"],
+        trophyDesc() { return "+" + format(getTrophyEff(12).sub(1).times(100)) + "% DMG when below 40% HP" },
+        trophyEff(x) { return x.div(10).plus(1).log10().plus(1) }
     }
 }
 
@@ -142,6 +157,11 @@ function getTrophyEff(id) { return tmp.trophyEff[id] };
 
 function getTrophyGenUpgCost(id) {
     return Decimal.pow(Number(id)+6, player.bestiaryGenUpgs[id]||0);
+}
+
+function getTrophyGen(id) {
+    if (Decimal.lte(player.bestiaryGenUpgs[id]||0, 0)) return D(0);
+    return Decimal.pow(2, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).max(0);
 }
 
 function buyTrophyGenUpg(id) {

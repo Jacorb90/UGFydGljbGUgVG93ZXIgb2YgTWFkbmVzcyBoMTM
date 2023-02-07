@@ -25,6 +25,6 @@ const ABILITY_DATA = {
     },
     counter: {
         name: "Counter",
-        desc: "Enemy has a 20% chance to counterattack the player when attacked."
+        desc: "Enemy has a 40% chance to counterattack the player when attacked."
     }
 }

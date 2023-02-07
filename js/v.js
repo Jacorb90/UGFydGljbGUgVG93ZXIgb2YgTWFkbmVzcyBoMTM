@@ -21,7 +21,8 @@ function loadVue() {
 			getTrophyGenUpgCost,
 			adjustEnemyDMG,
 			adjustEnemySPD,
-			ABILITY_DATA
+			ABILITY_DATA,
+			getTrophyGen
         }
 	})
 

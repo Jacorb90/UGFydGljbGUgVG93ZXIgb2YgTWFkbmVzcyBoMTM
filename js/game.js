@@ -77,7 +77,7 @@ function playerAtk(bulk) {
 	player.damageDealt = player.damageDealt.plus(eDmg);
 	player.attackCooldown = D(0);
 
-	if (tmp.enemyData.special.includes("counter") && Math.random() < 1 - Math.pow(0.8, bulk.toNumber())) enemyAtk(D(1));
+	if (tmp.enemyData.special.includes("counter") && Math.random() < 1 - Math.pow(0.6, bulk.toNumber())) enemyAtk(D(1));
 }
 
 function enemyAtk(bulk) {
@@ -128,7 +128,7 @@ function gameLoop(diff) {
 		}
 	}
 
-	for (let key in player.bestiaryGenUpgs) if (player.bestiary[key]) player.bestiary[key] = player.bestiary[key].plus(player.bestiaryGenUpgs[key].times(diff));
+	for (let key in player.bestiaryGenUpgs) if (player.bestiary[key]) player.bestiary[key] = player.bestiary[key].plus(getTrophyGen(key).times(diff));
 	
 	player.timePlayed += diff;
 }
