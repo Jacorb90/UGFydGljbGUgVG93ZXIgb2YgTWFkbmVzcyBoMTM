@@ -70,8 +70,8 @@ function hardReset() {
 }
 
 function playerAtk(bulk) {
-	const isCrit = Decimal.lt(Math.random(), tmp.critChance.times(bulk));
-	let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult : 1);
+	const isCrit = Decimal.lt(Math.random(), tmp.critChance.root(bulk));
+	let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult.max(1).sub(1).div(bulk).plus(1) : 1);
 	if (tmp.enemyData.special.includes("shield") && eDmg.lt(tmp.enemyTotalHP.div(10)) && !isCrit) eDmg = D(0);
 	
 	player.damageDealt = player.damageDealt.plus(eDmg);
@@ -99,11 +99,10 @@ function gameLoop(diff) {
 	if (player.enemyAttackCooldown.gte(Decimal.div(1, adjustEnemySPD(tmp.enemyData.spd)))) {
 		let bulk = player.enemyAttackCooldown.times(adjustEnemySPD(tmp.enemyData.spd)).floor();
 		enemyAtk(bulk)
-	} else {
-		let cooldownD = D(diff);
-		if (tmp.enemyData.special.includes("agile") && (Math.random() < (1 - getTrophyEff(11).toNumber()))) cooldownD = cooldownD.times(player.damageDealt.div(tmp.enemyTotalHP).times(2).plus(1));
-		player.enemyAttackCooldown = player.enemyAttackCooldown.plus(cooldownD);
 	}
+	let cooldownD = D(diff);
+	if (tmp.enemyData.special.includes("agile") && (Math.random() < (1 - getTrophyEff(11).toNumber()))) cooldownD = cooldownD.times(player.damageDealt.div(tmp.enemyTotalHP).times(2).plus(1));
+	player.enemyAttackCooldown = player.enemyAttackCooldown.plus(cooldownD);
 	
 	if (player.damageTaken.gte(tmp.hp)) {
 		player.attackCooldown = D(0);
@@ -117,7 +116,8 @@ function gameLoop(diff) {
 		if (player.attackCooldown.gte(Decimal.div(1, tmp.spd))) {
 			let bulk = player.attackCooldown.times(tmp.spd).floor();
 			playerAtk(bulk)
-		} else if (!(tmp.enemyData.special.includes("stun") && Math.random()<(.5 * (1 - getTrophyEff(11).toNumber())))) player.attackCooldown = player.attackCooldown.plus(diff);
+		} 
+		if (!(tmp.enemyData.special.includes("stun") && Math.random()<(.5 * (1 - getTrophyEff(11).toNumber())))) player.attackCooldown = player.attackCooldown.plus(diff);
 		
 		if (player.damageDealt.gte(tmp.enemyTotalHP)) {
 			player.xp = player.xp.plus(tmp.enemyData.xp.times(tmp.stageData.mag).times(tmp.xpMult));

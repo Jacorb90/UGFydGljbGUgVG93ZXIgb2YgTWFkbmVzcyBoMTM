@@ -17,7 +17,7 @@ function updateTemp() {
 	tmp.enemyRealDMG = tmp.enemyData.dmg.times(tmp.stageData.mag);
 
 	tmp.critChance = getTrophyEff(9);
-	tmp.critMult = 5;
+	tmp.critMult = D(5);
 
 	tmp.xpMult = getXPMult();
 	tmp.trophyMult = getTrophyMult();
