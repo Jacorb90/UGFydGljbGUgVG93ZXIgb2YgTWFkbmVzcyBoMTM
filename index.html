@@ -10,6 +10,7 @@
 	<script src="js/format.js"></script>
 	<script src="js/temp.js"></script>
 	<script src="js/game.js"></script>
+	<script src="js/trophy_sac.js"></script>
 	<script src="js/v.js"></script>
 	
 	<script src="js/ability_data.js"></script>
@@ -68,6 +69,10 @@
 						<button v-if="player.bestiary[Number(id)+6]!==undefined" v-bind:class="{bestiaryDiv: true, short: true, unlocked: true, canbuy: Decimal.gte(player.bestiary[Number(id)+6]||0, getTrophyGenUpgCost(id))}" v-on:click="buyTrophyGenUpg(id)">
 							<h4 style="margin-top: 2px;">+{{formatWhole(getTrophyGen(id))}} {{ENEMY_DATA[id].name}} Trophies/sec</h4>
 							Cost: {{formatWhole(getTrophyGenUpgCost(id))}} {{(ENEMY_DATA[Number(id)+6]!==undefined)?(ENEMY_DATA[Number(id)+6].name+" Trophies"):"???"}}
+						</button><br>
+						<button tooltip="Sacrified Trophies affect Trophy effects, but are permanent (i.e. don't have to be selected to work)." v-if="trophySacUnl(id)" v-bind:class="{bestiaryDiv: true, short: true, unlocked: true, canbuy: canTrophySac(id)}" v-on:click="trophySac(id)">
+							<h4 style="margin-top: 2px;">{{formatWhole(player.trophySac[id] ?? D(0))}} Sacrificed {{ENEMY_DATA[id].name}} Trophies</h4>
+							Cost: 50% of {{ENEMY_DATA[id].name}} Trophies (req amt: {{ formatWhole(trophySacReq()) }})
 						</button>
 					</td>
 				</tr>

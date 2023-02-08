@@ -22,7 +22,12 @@ function loadVue() {
 			adjustEnemyDMG,
 			adjustEnemySPD,
 			ABILITY_DATA,
-			getTrophyGen
+			getTrophyGen,
+			trophySac,
+			trophySacUnl,
+			canTrophySac,
+			trophySacReq,
+			D
         }
 	})
 

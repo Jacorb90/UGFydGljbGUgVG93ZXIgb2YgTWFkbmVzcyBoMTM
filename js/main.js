@@ -15,7 +15,15 @@ function getLevelReq(lvl) {
 function getXPMult() {
 	let m = D(1);
 
-	if (player.bestiaryChosen[15]) m = m.times(getTrophyEff(15));
+	m = m.times(getTrophyEff(15));
+
+	return m;
+}
+
+function getTrophyMult() {
+	let m = D(1);
+
+	m = m.times(getTrophyEff(15));
 
 	return m;
 }
@@ -51,19 +59,19 @@ function getEnemyData(stage) {
 
 function getHP() { 
 	let hp = Decimal.pow(1.5, tmp.lvl.sub(1).root(1.5)).plus(tmp.lvl.sub(2).max(0)).times(10).floor();
-	if (player.bestiaryChosen[005]) hp = hp.times(getTrophyEff(005));
+	hp = hp.times(getTrophyEff(005));
 	return hp;
 }
 
 function getDMG() { 
 	let dmg = tmp.lvl.sub(2).max(0).plus(1);
-	if (player.bestiaryChosen[10]) dmg = dmg.plus(getTrophyEff(10));
+	dmg = dmg.plus(getTrophyEff(10));
 
 	dmg = Decimal.pow(2, tmp.lvl.sub(1).sqrt()).times(dmg);
 
-	if (player.bestiaryChosen[002]) dmg = dmg.times(getTrophyEff(002));
-	if (player.bestiaryChosen[12] && player.damageTaken.gte(tmp.hp.times(0.6))) dmg = dmg.times(getTrophyEff(12));
-	if (player.bestiaryChosen[14]) dmg = dmg.div(getTrophyEff(14).pow(2/3).times(1.1));
+	dmg = dmg.times(getTrophyEff(002));
+	if (player.damageTaken.gte(tmp.hp.times(0.6))) dmg = dmg.times(getTrophyEff(12));
+	dmg = dmg.div(getTrophyEff(14).pow(2/3).times(1.1));
 
 	if (tmp.enemyData) if (tmp.enemyData.special.includes("weaken")) dmg = dmg.div(player.damageTaken.plus(1).log10().plus(1));
 	return dmg;
@@ -71,9 +79,9 @@ function getDMG() {
 
 function getSPD() { 
 	let spd = tmp.lvl.plus(1).div(2);
-	if (player.bestiaryChosen[001]) spd = spd.plus(getTrophyEff(001));
+	spd = spd.plus(getTrophyEff(001));
 
-	if (player.bestiaryChosen[14]) spd = spd.times(getTrophyEff(14));
+	spd = spd.times(getTrophyEff(14));
 	return spd;
 }
 
@@ -82,7 +90,7 @@ function adjustEnemyDMG(dmg) {
 
 	if (tmp.enemyData.special.includes("mutator")) return dmg;
 
-	if (player.bestiaryChosen[004]) dmg = dmg.div(getTrophyEff(004));
+	dmg = dmg.div(getTrophyEff(004));
 	return dmg;
 }
 
@@ -91,13 +99,13 @@ function adjustEnemySPD(spd) {
 
 	if (tmp.enemyData.special.includes("mutator")) return spd;
 
-	if (player.bestiaryChosen[006]) spd = spd.div(getTrophyEff(006));
+	spd = spd.div(getTrophyEff(006));
 	return spd;
 }
 
 function adjustEnemyHP(hp) {
 	if (tmp.enemyData.special.includes("mutator")) return hp;
 
-	if (player.bestiaryChosen[13]) hp = hp.div(getTrophyEff(13));
+	hp = hp.div(getTrophyEff(13));
 	return hp;
 }

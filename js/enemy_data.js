@@ -84,7 +84,7 @@ const ENEMY_DATA = {
         img: "images/electron.png",
         special: ["stun"],
         trophyDesc() { return "Heals "+format(getTrophyEff(007))+" HP per second" },
-        trophyEff(x) { return x.plus(1).log2().div(2).times(x.div(100).plus(1).root(4)) },
+        trophyEff(x) { return x.plus(1).log2().div(2).times(x.div(10).plus(1).cbrt()) },
     },
     8: {
         id: 8,
@@ -167,7 +167,7 @@ const ENEMY_DATA = {
         spd: D(8),
         img: "images/photon.png",
         special: ["weaken", "stun"],
-        trophyDesc() { return "+" + format(getTrophyEff(14).sub(1).times(100)) + "% SPD, but divide DMG by " + format(getTrophyEff(14).pow(2/3).times(1.1)) + "." },
+        trophyDesc() { return "+" + format(getTrophyEff(14).sub(1).times(100)) + "% SPD, but divide DMG by " + format(getTrophyEff(14).pow(2/3)) + "." },
         trophyEff(x) { return x.div(10).plus(1).log10().plus(1).pow(2) }
     },
     15: {
@@ -176,17 +176,18 @@ const ENEMY_DATA = {
         hp: D(999999),
         xp: D("2e6"),
         dmg: D(500),
-        spd: D(1.6),
+        spd: D(1.5),
         img: "images/higgs.png",
         special: ["mutator", "strengthen"],
-        trophyDesc() { return "+" + formatSmall(getTrophyEff(15).sub(1).times(100)) + "% XP gain" },
-        trophyEff(x) { return x.plus(1).root(2.5) }
+        trophyDesc() { return "+" + formatSmall(getTrophyEff(15).sub(1).times(100)) + "% XP & Trophy gain" },
+        trophyEff(x) { return x.plus(1).log(4).plus(1) }
     }
 }
 
 function toggleTrophy(id) {
     if ((tmp.bestiaryChosen<tmp.bestiaryLimit)||player.bestiaryChosen[id]) player.bestiaryChosen[id] = !player.bestiaryChosen[id]
     tmp.bestiaryChosen = Object.values(player.bestiaryChosen).filter(x => x).length;
+    updateTrophyEffs();
 }
 
 function getTrophyEff(id) { return tmp.trophyEff[id] };
@@ -197,7 +198,7 @@ function getTrophyGenUpgCost(id) {
 
 function getTrophyGen(id) {
     if (Decimal.lte(player.bestiaryGenUpgs[id]||0, 0)) return D(0);
-    return Decimal.pow(2, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).max(0);
+    return Decimal.pow(2, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).times(tmp.trophyMult).max(0);
 }
 
 function buyTrophyGenUpg(id) {

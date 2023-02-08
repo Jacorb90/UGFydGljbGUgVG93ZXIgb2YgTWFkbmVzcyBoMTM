@@ -14,6 +14,7 @@ function getStartPlayer() {
 		bestiary: {},
 		bestiaryChosen: {},
 		bestiaryGenUpgs: {},
+		trophySac: {}
 	};
 	return p;
 }
@@ -24,6 +25,7 @@ function fixPlayer() {
 
 	for (let key in player.bestiary) player.bestiary[key] = D(player.bestiary[key]);
 	for (let key in player.bestiaryGenUpgs) player.bestiaryGenUpgs[key] = D(player.bestiaryGenUpgs[key]);
+	for (let key in player.trophySac) player.trophySac[key] = D(player.trophySac[key]);
 }
 
 function fixPlayerObj(obj, start) {
