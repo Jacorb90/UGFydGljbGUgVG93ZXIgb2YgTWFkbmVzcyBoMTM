@@ -179,8 +179,8 @@ const ENEMY_DATA = {
         spd: D(1.6),
         img: "images/higgs.png",
         special: ["mutator", "strengthen"],
-        trophyDesc() { return "Generate " + formatSmall(getTrophyEff(15)) + " Field Particles per Trophy gained. [NOT IMPLEMENTED]" },
-        trophyEff(x) { return x.plus(1).root(10).sub(1).div(1e3) }
+        trophyDesc() { return "+" + formatSmall(getTrophyEff(15).sub(1).times(100)) + "% XP gain" },
+        trophyEff(x) { return x.plus(1).root(2.5) }
     }
 }
 

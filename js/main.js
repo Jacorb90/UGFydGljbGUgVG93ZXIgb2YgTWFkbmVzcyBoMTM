@@ -12,6 +12,14 @@ function getLevelReq(lvl) {
 	return Decimal.pow(data.base, lvl.sub(1).pow(data.exp)).ceil();
 }
 
+function getXPMult() {
+	let m = D(1);
+
+	if (player.bestiaryChosen[15]) m = m.times(getTrophyEff(15));
+
+	return m;
+}
+
 function prevStage() {
 	player.stage = player.stage.sub(1).max(1);
 	player.enemiesDefeated = D(0);

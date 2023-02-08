@@ -19,6 +19,8 @@ function updateTemp() {
 
 	tmp.critChance = player.bestiaryChosen[9] ? getTrophyEff(9) : D(0);
 	tmp.critMult = 5;
+
+	tmp.xpMult = getXPMult();
 }
 
 function bestStageLimitSC(n) {

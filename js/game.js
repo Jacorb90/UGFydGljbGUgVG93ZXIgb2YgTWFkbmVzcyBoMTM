@@ -120,7 +120,7 @@ function gameLoop(diff) {
 		} else if (!(tmp.enemyData.special.includes("stun") && Math.random()<(.5 * (player.bestiaryChosen[11] ? (1 - getTrophyEff(11).toNumber()) : 1)))) player.attackCooldown = player.attackCooldown.plus(diff);
 		
 		if (player.damageDealt.gte(tmp.enemyTotalHP)) {
-			player.xp = player.xp.plus(tmp.enemyData.xp.times(tmp.stageData.mag));
+			player.xp = player.xp.plus(tmp.enemyData.xp.times(tmp.stageData.mag).times(tmp.xpMult));
 			player.damageDealt = D(0);
 			player.enemyAttackCooldown = D(0);
 			player.enemiesDefeated = player.enemiesDefeated.plus(1);
