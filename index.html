@@ -64,14 +64,15 @@
 					<td v-for="(value, id) in Object.keys(player.bestiary).reduce(function(result, key) { if (key>(6*(r-1))&&key<=r*6) result[key] = player.bestiary[key];return result; }, {})">
 						<button v-bind:class="{bestiaryDiv: true, unlocked: true, enabled: player.bestiaryChosen[id]}" v-on:click="toggleTrophy(id)">
 							<h4>{{ENEMY_DATA[id].name}} [{{formatWhole(value)}}]</h4>
-							{{ENEMY_DATA[id].trophyDesc?.() ?? "???"}}
+							{{ENEMY_DATA[id].trophyDesc?.(0) ?? "???"}}
 						</button><br>
 						<button v-if="player.bestiary[Number(id)+6]!==undefined" v-bind:class="{bestiaryDiv: true, short: true, unlocked: true, canbuy: Decimal.gte(player.bestiary[Number(id)+6]||0, getTrophyGenUpgCost(id))}" v-on:click="buyTrophyGenUpg(id)">
 							<h4 style="margin-top: 2px;">+{{formatWhole(getTrophyGen(id))}} {{ENEMY_DATA[id].name}} Trophies/sec</h4>
 							Cost: {{formatWhole(getTrophyGenUpgCost(id))}} {{(ENEMY_DATA[Number(id)+6]!==undefined)?(ENEMY_DATA[Number(id)+6].name+" Trophies"):"???"}}
 						</button><br>
-						<button tooltip="Sacrified Trophies affect Trophy effects, but are permanent (i.e. don't have to be selected to work)." v-if="trophySacUnl(id)" v-bind:class="{bestiaryDiv: true, short: true, unlocked: true, canbuy: canTrophySac(id)}" v-on:click="trophySac(id)">
+						<button tooltip="Sacrified Trophies add to Trophy effects, but are permanent (i.e. don't have to be selected to work)." v-if="trophySacUnl(id)" v-bind:class="{bestiaryDiv: true, unlocked: true, canbuy: canTrophySac(id)}" v-on:click="trophySac(id)">
 							<h4 style="margin-top: 2px;">{{formatWhole(player.trophySac[id] ?? D(0))}} Sacrificed {{ENEMY_DATA[id].name}} Trophies</h4>
+							{{ENEMY_DATA[id].trophyDesc?.(1) ?? "???"}}<br>
 							Cost: 50% of {{ENEMY_DATA[id].name}} Trophies (req amt: {{ formatWhole(trophySacReq()) }})
 						</button>
 					</td>

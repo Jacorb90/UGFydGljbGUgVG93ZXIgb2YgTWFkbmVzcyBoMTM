@@ -8,8 +8,10 @@ const ENEMY_DATA = {
 		spd: D(.6),
 		img: "images/up_quark.png",
 		special: [],
-        trophyDesc() { return "+"+format(getTrophyEff(001))+" SPD" },
+        trophyDesc(b) { return "+"+format(getTrophyEff(001, b))+" SPD" },
         trophyEff(x) { return x.div(10).plus(1).log10().sqrt() },
+        sacEff(x) { return x.div(1e5).plus(1).log10().cbrt() },
+        stackType: "add"
 	},
 	002: {
 		id: 002,
@@ -20,8 +22,10 @@ const ENEMY_DATA = {
 		spd: D(.7),
 		img: "images/down_quark.png",
 		special: [],
-        trophyDesc() { return "+"+format(getTrophyEff(002).sub(1).times(100))+"% DMG" },
+        trophyDesc(b) { return "+"+format(getTrophyEff(002, b).sub(1).times(100))+"% DMG" },
         trophyEff(x) { return x.div(10).plus(1).cbrt() },
+        sacEff(x) { return x.div(1e5).plus(1).log10().plus(1) },
+        stackType: "mult"
 	},
     003: {
         id: 003,
@@ -32,8 +36,10 @@ const ENEMY_DATA = {
         spd: D(1),
         img: "images/charm_quark.png",
         special: ["heal"],
-        trophyDesc() { return "Heals "+format(getTrophyEff(003))+" HP per kill" },
+        trophyDesc(b) { return "Heals "+format(getTrophyEff(003, b))+" HP per kill" },
         trophyEff(x) { return x.plus(1).log2().times(5).times(x.div(1e4).plus(1).cbrt()) },
+        sacEff(x) { return x.plus(1).log2().times(5).times(x.div(1e4).plus(1).cbrt()).times(10).sqrt() },
+        stackType: "add"
     },
     004: {
         id: 004,
@@ -44,8 +50,10 @@ const ENEMY_DATA = {
         spd: D(2.5),
         img: "images/strange_quark.png",
         special: ["weaken"],
-        trophyDesc() { return "Divides Enemy DMG by "+format(getTrophyEff(004)) },
+        trophyDesc(b) { return "Divides Enemy DMG by "+format(getTrophyEff(004, b)) },
         trophyEff(x) { return x.div(5).plus(1).log10().plus(1).sqrt() },
+        sacEff(x) { return x.div(5e4).plus(1).log10().plus(1).cbrt() },
+        stackType: "mult"
     },
     005: {
         id: 005,
@@ -56,11 +64,13 @@ const ENEMY_DATA = {
         spd: D(.8),
         img: "images/top_quark.png",
         special: [],
-        trophyDesc() { return "+"+format(getTrophyEff(005).sub(1).times(100))+"% HP" },
+        trophyDesc(b) { return "+"+format(getTrophyEff(005, b).sub(1).times(100))+"% HP" },
         trophyEff(x) { 
             if (x.gte(1e5)) x = x.sqrt().times(Math.sqrt(1e5))
             return x.div(5).plus(1).sqrt() 
         },
+        sacEff(x) { return x.div(1e5).plus(1).log10().plus(1).sqrt() },
+        stackType: "mult"
     },
     006: {
         id: 006,
@@ -71,8 +81,10 @@ const ENEMY_DATA = {
         spd: D(5),
         img: "images/bottom_quark.png",
         special: [],
-        trophyDesc() { return "Divides Enemy SPD by "+format(getTrophyEff(006)) },
+        trophyDesc(b) { return "Divides Enemy SPD by "+format(getTrophyEff(006, b)) },
         trophyEff(x) { return x.div(10).plus(1).log10().plus(1) },
+        sacEff(x) { return x.div(1e6).plus(1).log10().plus(1).sqrt() },
+        stackType: "mult"
     },
     007: {
         id: 007,
@@ -83,8 +95,10 @@ const ENEMY_DATA = {
         spd: D(2),
         img: "images/electron.png",
         special: ["stun"],
-        trophyDesc() { return "Heals "+format(getTrophyEff(007))+" HP per second" },
+        trophyDesc(b) { return "Heals "+format(getTrophyEff(007, b))+" HP per second" },
         trophyEff(x) { return x.plus(1).log2().div(2).times(x.div(10).plus(1).cbrt()) },
+        sacEff(x) { return x.div(1e6).plus(1).log2().div(3).times(x.div(1e8).plus(1).root(4)) },
+        stackType: "add"
     },
     8: {
         id: 8,
@@ -95,8 +109,10 @@ const ENEMY_DATA = {
         spd: D(.4),
         img: "images/muon.png",
         special: [],
-        trophyDesc() { return "Divides enemy healing by "+format(getTrophyEff(8)) },
+        trophyDesc(b) { return "Divides enemy healing by "+format(getTrophyEff(8, b)) },
         trophyEff(x) { return x.plus(1).log2().plus(1).log(4).plus(1) },
+        sacEff(x) { return x.div(1e5).plus(1).log2().plus(1).log10().plus(1).sqrt() },
+        stackType: "mult"
     },
     9: {
         id: 9,
@@ -107,8 +123,10 @@ const ENEMY_DATA = {
         spd: D(3),
         img: "images/tau.png",
         special: ["agile"],
-        trophyDesc() { return format(getTrophyEff(9).times(100))+"% Critical Hit Chance (5x DMG)" },
-        trophyEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(5).plus(1).log10().plus(1))) }
+        trophyDesc(b) { return format(getTrophyEff(9, b).times(100))+"% Critical Hit Chance (5x DMG)" },
+        trophyEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(5).plus(1).log10().plus(1))) },
+        sacEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(5e6).plus(1).log10().plus(1))) },
+        stackType: "add"
     },
     10: {
         id: 10,
@@ -119,8 +137,10 @@ const ENEMY_DATA = {
         spd: D(2),
         img: "images/electron_neutrino.png",
         special: ["stun", "mutator"],
-        trophyDesc() { return "+"+format(getTrophyEff(10))+" Base DMG" },
-        trophyEff(x) { return x.div(25).plus(1).log10().sqrt() }
+        trophyDesc(b) { return "+"+format(getTrophyEff(10, b))+" Base DMG" },
+        trophyEff(x) { return x.div(25).plus(1).log10().sqrt() },
+        sacEff(x) { return x.div(2.5e7).plus(1).log10().cbrt() },
+        stackType: "add"
     },
     11: {
         id: 11,
@@ -131,8 +151,10 @@ const ENEMY_DATA = {
         spd: D(1.5),
         img: "images/muon_neutrino.png",
         special: ["shield"],
-        trophyDesc() { return "Enemy Stun, Heal, & Agile abilities have a " + format(getTrophyEff(11).times(100)) + "% chance to fail" },
-        trophyEff(x) { return Decimal.sub(1, Decimal.div(1, x.div(2).plus(1).log10().plus(1))) }
+        trophyDesc(b) { return "Enemy Stun, Heal, & Agile abilities have a " + format(getTrophyEff(11, b).times(100)) + "% chance to fail" },
+        trophyEff(x) { return Decimal.sub(1, Decimal.div(1, x.div(2).plus(1).log10().plus(1))) },
+        sacEff(x) { return Decimal.sub(1, Decimal.div(1, x.div(2e8).plus(1).log10().plus(1).sqrt())) },
+        stackType: "multAfter1"
     },
     12: {
         id: 12,
@@ -143,8 +165,10 @@ const ENEMY_DATA = {
         spd: D(1.5),
         img: "images/tau_neutrino.png",
         special: ["agile", "counter"],
-        trophyDesc() { return "+" + format(getTrophyEff(12).sub(1).times(100)) + "% DMG when below 40% HP" },
-        trophyEff(x) { return x.div(10).plus(1).log10().plus(1) }
+        trophyDesc(b) { return "+" + format(getTrophyEff(12, b).sub(1).times(100)) + "% DMG when below 40% HP" },
+        trophyEff(x) { return x.div(10).plus(1).log10().plus(1) },
+        sacEff(x) { return x.div(1e8).plus(1).log10().plus(1).sqrt() },
+        stackType: "mult"
     },
     13: {
         id: 13,
@@ -155,8 +179,10 @@ const ENEMY_DATA = {
         spd: D(2),
         img: "images/gluon.png",
         special: ["heal", "mutator", "counter"],
-        trophyDesc() { return "Divide Enemy HP by " + format(getTrophyEff(13)) + ", but double Enemy SPD." },
-        trophyEff(x) { return x.times(1.7).plus(1).log10().plus(1) }
+        trophyDesc(b) { return "Divide Enemy HP by " + format(getTrophyEff(13, b)) + ", but double Enemy SPD." },
+        trophyEff(x) { return x.times(1.7).plus(1).log10().plus(1) },
+        sacEff(x) { return x.times(2.3e8).plus(1).log10().plus(1).sqrt() },
+        stackType: "mult"
     },
     14: {
         id: 14,
@@ -167,8 +193,10 @@ const ENEMY_DATA = {
         spd: D(8),
         img: "images/photon.png",
         special: ["weaken", "stun"],
-        trophyDesc() { return "+" + format(getTrophyEff(14).sub(1).times(100)) + "% SPD, but divide DMG by " + format(getTrophyEff(14).pow(2/3)) + "." },
-        trophyEff(x) { return x.div(10).plus(1).log10().plus(1).pow(2) }
+        trophyDesc(b) { return "+" + format(getTrophyEff(14, b).sub(1).times(100)) + "% SPD, but divide DMG by " + format(getTrophyEff(14, b).pow(2/3)) + "." },
+        trophyEff(x) { return x.div(10).plus(1).log10().plus(1).pow(2) },
+        sacEff(x) { return x.div(1e9).plus(1).log10().plus(1) },
+        stackType: "mult"
     },
     15: {
         id: 15,
@@ -179,8 +207,10 @@ const ENEMY_DATA = {
         spd: D(1.5),
         img: "images/higgs.png",
         special: ["mutator", "strengthen"],
-        trophyDesc() { return "+" + formatSmall(getTrophyEff(15).sub(1).times(100)) + "% XP & Trophy gain" },
-        trophyEff(x) { return x.plus(1).log(4).plus(1) }
+        trophyDesc(b) { return "+" + formatSmall(getTrophyEff(15, b).sub(1).times(100)) + "% XP & Trophy gain" },
+        trophyEff(x) { return x.plus(1).log(4).plus(1) },
+        sacEff(x) { return x.div(1e9).plus(1).log(7).plus(1).sqrt() },
+        stackType: "mult"
     }
 }
 
@@ -190,7 +220,17 @@ function toggleTrophy(id) {
     updateTrophyEffs();
 }
 
-function getTrophyEff(id) { return tmp.trophyEff[id] };
+function fuseEffects(e1, e2, type) {
+    if (type == "add") return e1.plus(e2);
+    if (type == "mult") return e1.times(e2);
+    if (type == "multAfter1") return e1.plus(1).times(e2.plus(1)).sub(1);
+    return e1;
+}
+
+function getTrophyEff(id, b = 2) { 
+    if (b == 0) return ENEMY_DATA[id]?.trophyEff?.(player.bestiary[id]||D(0));
+    return b == 2 ? fuseEffects(tmp.trophyEff[id], tmp.sacTrophyEff[id], ENEMY_DATA[id].stackType) : tmp.sacTrophyEff[id];
+};
 
 function getTrophyGenUpgCost(id) {
     return Decimal.pow(Number(id)+6, player.bestiaryGenUpgs[id]||0);

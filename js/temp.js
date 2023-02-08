@@ -30,7 +30,15 @@ function bestStageLimitSC(n) {
 
 function updateTrophyEffs() {
 	tmp.trophyEff = {};
-	for (let e in ENEMY_DATA) tmp.trophyEff[e] = ENEMY_DATA[e].trophyEff !== undefined
-		? (player.bestiaryChosen[e] ? ENEMY_DATA[e].trophyEff((player.bestiary[e]||D(0)).plus(player.trophySac[e]||D(0))) : ENEMY_DATA[e].trophyEff(player.trophySac[e]||D(0))) 
-		: D(0);
+	tmp.sacTrophyEff = {};
+	for (let e in ENEMY_DATA) {
+		tmp.trophyEff[e] = ENEMY_DATA[e].trophyEff !== undefined
+			? ENEMY_DATA[e].trophyEff(player.bestiaryChosen[e] ? (player.bestiary[e]||D(0)) : D(0)) 
+			: D(0);
+		tmp.sacTrophyEff[e] = ENEMY_DATA[e].sacEff !== undefined
+			? ENEMY_DATA[e].sacEff(trophySacUnl(e) ? (player.trophySac[e]||D(0)) : D(0)) 
+			: D(0);
+	}
+	
+		
 }
