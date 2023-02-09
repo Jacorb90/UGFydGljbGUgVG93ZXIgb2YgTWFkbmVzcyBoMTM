@@ -47,15 +47,15 @@ function importSave() {
 }
 
 function exportSave() {
-	let data = btoa(JSON.stringify(player))
-	const a = document.createElement('a');
-	a.setAttribute('href', 'data:text/plain;charset=utf-8,' + data);
-	a.setAttribute('download', "particleTower.txt");
-	a.setAttribute('id', 'downloadSave');
-
-	document.body.appendChild(a);
-	a.click();
-	document.body.removeChild(a);
+	let str = btoa(JSON.stringify(player))
+	
+	const el = document.createElement("textarea");
+	el.value = str;
+	document.body.appendChild(el);
+	el.select();
+    el.setSelectionRange(0, 99999);
+	document.execCommand("copy");
+	document.body.removeChild(el);
 }
 
 function toggleAutosave() {
