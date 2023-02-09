@@ -73,7 +73,7 @@
 						<button tooltip="Sacrified Trophies add to Trophy effects, but are permanent (i.e. don't have to be selected to work)." v-if="trophySacUnl(id)" v-bind:class="{bestiaryDiv: true, unlocked: true, canbuy: canTrophySac(id)}" v-on:click="trophySac(id)">
 							<h4 style="margin-top: 2px;">{{formatWhole(player.trophySac[id] ?? D(0))}} Sacrificed {{ENEMY_DATA[id].name}} Trophies</h4>
 							{{ENEMY_DATA[id].trophyDesc?.(1) ?? "???"}}<br>
-							Cost: 50% of {{ENEMY_DATA[id].name}} Trophies (req amt: {{ formatWhole(trophySacReq()) }})
+							Cost: 50% of {{ENEMY_DATA[id].name}} Trophies (req amt: {{ formatWhole(trophySacReq(id)) }})
 						</button>
 					</td>
 				</tr>

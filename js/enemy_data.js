@@ -11,6 +11,7 @@ const ENEMY_DATA = {
         trophyDesc(b) { return "+"+format(getTrophyEff(001, b))+" SPD" },
         trophyEff(x) { return x.div(10).plus(1).log10().sqrt() },
         sacEff(x) { return x.div(1e5).plus(1).log10().cbrt() },
+        sacReq: D(5e5),
         stackType: "add"
 	},
 	002: {
@@ -24,7 +25,8 @@ const ENEMY_DATA = {
 		special: [],
         trophyDesc(b) { return "+"+format(getTrophyEff(002, b).sub(1).times(100))+"% DMG" },
         trophyEff(x) { return x.div(10).plus(1).cbrt() },
-        sacEff(x) { return x.div(1e5).plus(1).log10().plus(1) },
+        sacEff(x) { return x.div(1e6).plus(1).log(100).plus(1) },
+        sacReq: D(1e6),
         stackType: "mult"
 	},
     003: {
@@ -38,7 +40,8 @@ const ENEMY_DATA = {
         special: ["heal"],
         trophyDesc(b) { return "Heals "+format(getTrophyEff(003, b))+" HP per kill" },
         trophyEff(x) { return x.plus(1).log2().times(5).times(x.div(1e4).plus(1).cbrt()) },
-        sacEff(x) { return x.plus(1).log2().times(5).times(x.div(1e4).plus(1).cbrt()).times(10).sqrt() },
+        sacEff(x) { return x.plus(1).log2().times(5).times(x.div(1e4).plus(1).cbrt()).times(1e4).sqrt() },
+        sacReq: D(2e6),
         stackType: "add"
     },
     004: {
@@ -52,7 +55,8 @@ const ENEMY_DATA = {
         special: ["weaken"],
         trophyDesc(b) { return "Divides Enemy DMG by "+format(getTrophyEff(004, b)) },
         trophyEff(x) { return x.div(5).plus(1).log10().plus(1).sqrt() },
-        sacEff(x) { return x.div(5e4).plus(1).log10().plus(1).cbrt() },
+        sacEff(x) { return x.div(1e6).plus(1).log10().plus(1).cbrt() },
+        sacReq: D(4e6),
         stackType: "mult"
     },
     005: {
@@ -69,7 +73,8 @@ const ENEMY_DATA = {
             if (x.gte(1e5)) x = x.sqrt().times(Math.sqrt(1e5))
             return x.div(5).plus(1).sqrt() 
         },
-        sacEff(x) { return x.div(1e5).plus(1).log10().plus(1).sqrt() },
+        sacEff(x) { return x.div(3e6).plus(1).log10().plus(1).sqrt() },
+        sacReq: D(8e6),
         stackType: "mult"
     },
     006: {
@@ -83,7 +88,8 @@ const ENEMY_DATA = {
         special: [],
         trophyDesc(b) { return "Divides Enemy SPD by "+format(getTrophyEff(006, b)) },
         trophyEff(x) { return x.div(10).plus(1).log10().plus(1) },
-        sacEff(x) { return x.div(1e6).plus(1).log10().plus(1).sqrt() },
+        sacEff(x) { return x.div(1e7).plus(1).log10().plus(1).sqrt() },
+        sacReq: D(1.6e7),
         stackType: "mult"
     },
     007: {
@@ -97,7 +103,8 @@ const ENEMY_DATA = {
         special: ["stun"],
         trophyDesc(b) { return "Heals "+format(getTrophyEff(007, b))+" HP per second" },
         trophyEff(x) { return x.plus(1).log2().div(2).times(x.div(10).plus(1).cbrt()) },
-        sacEff(x) { return x.div(1e6).plus(1).log2().div(3).times(x.div(1e8).plus(1).root(4)) },
+        sacEff(x) { return x.div(1e7).plus(1).log2().div(3).times(x.div(1e9).plus(1).root(4)) },
+        sacReq: D(3.2e7),
         stackType: "add"
     },
     8: {
@@ -112,6 +119,7 @@ const ENEMY_DATA = {
         trophyDesc(b) { return "Divides enemy healing by "+format(getTrophyEff(8, b)) },
         trophyEff(x) { return x.plus(1).log2().plus(1).log(4).plus(1) },
         sacEff(x) { return x.div(1e5).plus(1).log2().plus(1).log10().plus(1).sqrt() },
+        sacReq: D(6.4e7),
         stackType: "mult"
     },
     9: {
@@ -125,7 +133,8 @@ const ENEMY_DATA = {
         special: ["agile"],
         trophyDesc(b) { return format(getTrophyEff(9, b).times(100))+"% Critical Hit Chance (5x DMG)" },
         trophyEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(5).plus(1).log10().plus(1))) },
-        sacEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(5e6).plus(1).log10().plus(1))) },
+        sacEff(x) { return Decimal.sub(0.2, Decimal.div(0.2, x.div(1e8).plus(1).log10().plus(1))) },
+        sacReq: D(1.28e8),
         stackType: "add"
     },
     10: {
@@ -140,6 +149,7 @@ const ENEMY_DATA = {
         trophyDesc(b) { return "+"+format(getTrophyEff(10, b))+" Base DMG" },
         trophyEff(x) { return x.div(25).plus(1).log10().sqrt() },
         sacEff(x) { return x.div(2.5e7).plus(1).log10().cbrt() },
+        sacReq: D(2.56e8),
         stackType: "add"
     },
     11: {
@@ -153,7 +163,8 @@ const ENEMY_DATA = {
         special: ["shield"],
         trophyDesc(b) { return "Enemy Stun, Heal, & Agile abilities have a " + format(getTrophyEff(11, b).times(100)) + "% chance to fail" },
         trophyEff(x) { return Decimal.sub(1, Decimal.div(1, x.div(2).plus(1).log10().plus(1))) },
-        sacEff(x) { return Decimal.sub(1, Decimal.div(1, x.div(2e8).plus(1).log10().plus(1).sqrt())) },
+        sacEff(x) { return Decimal.sub(1, Decimal.div(1, x.div(5e8).plus(1).log10().plus(1).sqrt())) },
+        sacReq: D(5.12e8),
         stackType: "multAfter1"
     },
     12: {
@@ -167,7 +178,8 @@ const ENEMY_DATA = {
         special: ["agile", "counter"],
         trophyDesc(b) { return "+" + format(getTrophyEff(12, b).sub(1).times(100)) + "% DMG when below 40% HP" },
         trophyEff(x) { return x.div(10).plus(1).log10().plus(1) },
-        sacEff(x) { return x.div(1e8).plus(1).log10().plus(1).sqrt() },
+        sacEff(x) { return x.div(1e9).plus(1).log10().plus(1).sqrt() },
+        sacReq: D(1e9),
         stackType: "mult"
     },
     13: {
@@ -181,7 +193,8 @@ const ENEMY_DATA = {
         special: ["heal", "mutator", "counter"],
         trophyDesc(b) { return "Divide Enemy HP by " + format(getTrophyEff(13, b)) + ", but double Enemy SPD." },
         trophyEff(x) { return x.times(1.7).plus(1).log10().plus(1) },
-        sacEff(x) { return x.times(2.3e8).plus(1).log10().plus(1).sqrt() },
+        sacEff(x) { return x.times(2e9).plus(1).log10().plus(1).sqrt() },
+        sacReq: D(2e9),
         stackType: "mult"
     },
     14: {
@@ -195,7 +208,8 @@ const ENEMY_DATA = {
         special: ["weaken", "stun"],
         trophyDesc(b) { return "+" + format(getTrophyEff(14, b).sub(1).times(100)) + "% SPD, but divide DMG by " + format(getTrophyEff(14, b).pow(2/3)) + "." },
         trophyEff(x) { return x.div(10).plus(1).log10().plus(1).pow(2) },
-        sacEff(x) { return x.div(1e9).plus(1).log10().plus(1) },
+        sacEff(x) { return x.div(4e9).plus(1).log10().plus(1) },
+        sacReq: D(4e9),
         stackType: "mult"
     },
     15: {
@@ -209,7 +223,8 @@ const ENEMY_DATA = {
         special: ["mutator", "strengthen"],
         trophyDesc(b) { return "+" + formatSmall(getTrophyEff(15, b).sub(1).times(100)) + "% XP & Trophy gain" },
         trophyEff(x) { return x.plus(1).log(4).plus(1) },
-        sacEff(x) { return x.div(1e9).plus(1).log(7).plus(1).sqrt() },
+        sacEff(x) { return x.div(8e9).plus(1).log(7).plus(1).sqrt() },
+        sacReq: D(8e9),
         stackType: "mult"
     }
 }

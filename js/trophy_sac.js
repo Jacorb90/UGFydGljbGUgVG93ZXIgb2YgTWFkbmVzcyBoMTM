@@ -2,8 +2,8 @@ function trophySacUnl(id) {
     return player.bestStage.gte(50 + Math.pow(Number(id), 2));
 }
 
-function trophySacReq() {
-    return D(5e5);
+function trophySacReq(id) {
+    return ENEMY_DATA[id].sacReq ?? D(5e5);
 }
 
 function trophySacRatio() {
@@ -11,7 +11,7 @@ function trophySacRatio() {
 }
 
 function canTrophySac(id) {
-    return trophySacUnl() && player.bestiary[id] !== undefined && player.bestiary[id].gte(trophySacReq());
+    return trophySacUnl() && player.bestiary[id] !== undefined && player.bestiary[id].gte(trophySacReq(id));
 }
 
 function trophySac(id) {
