@@ -10,7 +10,7 @@ const ENEMY_DATA = {
 		special: [],
         trophyDesc(b) { return "+"+format(getTrophyEff(001, b))+" SPD" },
         trophyEff(x) { return x.div(10).plus(1).log10().sqrt() },
-        sacEff(x) { return x.div(1e5).plus(1).log10().cbrt() },
+        sacEff(x) { return x.div(1e6).cbrt().div(2) },
         sacReq: D(5e5),
         stackType: "add"
 	},
