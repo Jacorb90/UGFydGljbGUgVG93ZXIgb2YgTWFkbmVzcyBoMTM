@@ -244,7 +244,9 @@ function fuseEffects(e1, e2, type) {
 
 function getTrophyEff(id, b = 2) { 
     if (b == 0) return ENEMY_DATA[id]?.trophyEff?.(player.bestiary[id]||D(0));
-    return b == 2 ? fuseEffects(tmp.trophyEff[id], tmp.sacTrophyEff[id], ENEMY_DATA[id].stackType) : tmp.sacTrophyEff[id];
+    if (b == 1) return ENEMY_DATA[id]?.sacEff?.(player.trophySac[id]||D(0));
+
+    return fuseEffects(tmp.trophyEff[id], tmp.sacTrophyEff[id], ENEMY_DATA[id].stackType)
 };
 
 function getTrophyGenUpgCost(id) {

@@ -70,10 +70,13 @@
 							<h4 style="margin-top: 2px;">+{{formatWhole(getTrophyGen(id))}} {{ENEMY_DATA[id].name}} Trophies/sec</h4>
 							Cost: {{formatWhole(getTrophyGenUpgCost(id))}} {{(ENEMY_DATA[Number(id)+6]!==undefined)?(ENEMY_DATA[Number(id)+6].name+" Trophies"):"???"}}
 						</button><br>
-						<button tooltip="Sacrified Trophies add to Trophy effects, but are permanent (i.e. don't have to be selected to work)." v-if="trophySacUnl(id)" v-bind:class="{bestiaryDiv: true, unlocked: true, canbuy: canTrophySac(id)}" v-on:click="trophySac(id)">
+						<button tooltip="Sacrified Trophies add to Trophy effects, but are permanent (i.e. don't have to be selected to work)." v-if="trophySacUnl(id)" v-bind:class="{bestiaryDiv: true, tall: true, unlocked: true, canbuy: canTrophySac(id)}" v-on:click="trophySac(id)">
 							<h4 style="margin-top: 2px;">{{formatWhole(player.trophySac[id] ?? D(0))}} Sacrificed {{ENEMY_DATA[id].name}} Trophies</h4>
 							{{ENEMY_DATA[id].trophyDesc?.(1) ?? "???"}}<br>
 							Cost: 50% of {{ENEMY_DATA[id].name}} Trophies (req amt: {{ formatWhole(trophySacReq(id)) }})
+						</button><br>
+						<button v-if="trophySacUnl(id)" :class="{ binary: true, enabled: !(player.trophySacDisabled[id] ?? false), disabled: player.trophySacDisabled[id] ?? false }" @click="player.trophySacDisabled[id] = !(player.trophySacDisabled[id] ?? false)">
+							{{ player.trophySacDisabled[id] ? "OFF" : "ON" }}
 						</button>
 					</td>
 				</tr>

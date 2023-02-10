@@ -218,13 +218,29 @@ button.unlocked.trophies {
 .bestiaryDiv.short {
 	height: 125px;
 }
+.bestiaryDiv.tall {
+	height: 175px;
+}
 
-.bestiaryDiv.enabled {
+button.binary {
+	width: 125px;
+	height: 5em;
+	cursor: pointer;
+}
+button.binary:hover {
+	
+}
+
+.enabled {
 	background-color: #008221;
 }
 
-.bestiaryDiv.canbuy {
+.canbuy {
 	background-color: #008282;
+}
+
+.disabled {
+	background-color: #ffb188;
 }
 
 [tooltip] {

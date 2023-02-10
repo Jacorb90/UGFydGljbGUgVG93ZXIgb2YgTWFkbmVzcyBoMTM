@@ -77,7 +77,7 @@ function playerAtk(bulk) {
 	player.damageDealt = player.damageDealt.plus(eDmg);
 	player.attackCooldown = D(0);
 
-	if (tmp.enemyData.special.includes("counter") && Math.random() < 1 - Math.pow(0.6, bulk.toNumber())) enemyAtk(D(1));
+	if (tmp.enemyData.special.includes("counter") && Math.random() < 1 - Math.pow(0.6, bulk.toNumber())) enemyAtk(bulk.sub(1).div(5).floor().times(5).plus(1));
 }
 
 function enemyAtk(bulk) {

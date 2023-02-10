@@ -14,7 +14,8 @@ function getStartPlayer() {
 		bestiary: {},
 		bestiaryChosen: {},
 		bestiaryGenUpgs: {},
-		trophySac: {}
+		trophySac: {},
+		trophySacDisabled: {}
 	};
 	return p;
 }

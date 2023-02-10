@@ -36,7 +36,7 @@ function updateTrophyEffs() {
 			? ENEMY_DATA[e].trophyEff(player.bestiaryChosen[e] ? (player.bestiary[e]||D(0)) : D(0)) 
 			: D(0);
 		tmp.sacTrophyEff[e] = ENEMY_DATA[e].sacEff !== undefined
-			? ENEMY_DATA[e].sacEff(trophySacUnl(e) ? (player.trophySac[e]||D(0)) : D(0)) 
+			? ENEMY_DATA[e].sacEff(trophySacUnl(e) && !player.trophySacDisabled[e] ? (player.trophySac[e]||D(0)) : D(0)) 
 			: D(0);
 	}
 	
