@@ -219,7 +219,7 @@ button.unlocked.trophies {
 	height: 125px;
 }
 .bestiaryDiv.tall {
-	height: 190px;
+	height: 160px;
 }
 
 button.binary {
@@ -272,6 +272,7 @@ button.binary:hover {
     background-color: hsla(0, 0%, 5%, 0.9);
     color: #fff;
     content: attr(tooltip);
+	white-space: pre-wrap;
     text-align: center;
     font-size: 14px;
     line-height: 1.2;
