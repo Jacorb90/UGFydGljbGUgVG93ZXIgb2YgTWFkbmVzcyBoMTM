@@ -55,7 +55,7 @@ const ENEMY_DATA = {
         special: ["weaken"],
         trophyDesc(b) { return "Divides Enemy DMG by "+format(getTrophyEff(004, b)) },
         trophyEff(x) { return x.div(5).plus(1).log10().plus(1).sqrt() },
-        sacEff(x) { return x.div(1e6).plus(1).log10().plus(1).cbrt() },
+        sacEff(x) { return x.div(1e6).plus(1).log(3).plus(1).pow(2.75) },
         sacReq: D(4e6),
         stackType: "mult"
     },
@@ -233,6 +233,7 @@ function toggleTrophy(id) {
     if ((tmp.bestiaryChosen<tmp.bestiaryLimit)||player.bestiaryChosen[id]) player.bestiaryChosen[id] = !player.bestiaryChosen[id]
     tmp.bestiaryChosen = Object.values(player.bestiaryChosen).filter(x => x).length;
     updateTrophyEffs();
+    resetStage();
 }
 
 function fuseEffects(e1, e2, type) {

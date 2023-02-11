@@ -27,7 +27,10 @@ function loadVue() {
 			trophySacUnl,
 			canTrophySac,
 			trophySacReq,
-			D
+			D,
+			updateTrophyEffs,
+			resetStage,
+			getStageName
         }
 	})
 

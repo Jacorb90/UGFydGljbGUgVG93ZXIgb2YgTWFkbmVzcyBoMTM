@@ -19,4 +19,7 @@ function trophySac(id) {
 
     player.trophySac[id] = trophySacRatio().times(player.bestiary[id].div(2)).plus(player.trophySac[id] ?? 0);
     player.bestiary[id] = player.bestiary[id].div(2);
+
+    updateTrophyEffs();
+    resetStage();
 }

@@ -46,7 +46,7 @@
 			XP: <b>{{formatWhole(player.xp)}} / {{formatWhole(tmp.nextLvl)}}</b><br><br>
 			HP: <b>{{formatWhole(tmp.hp.sub(player.damageTaken).max(0))}} / {{formatWhole(tmp.hp)}}</b><br>
 			DMG: <b>{{formatWhole(tmp.dmg)}}</b>, SPD: <b>{{format(tmp.spd)}}</b><br><br><br>
-			<button v-bind:class="{mini: true, unlocked: player.stage.gt(1), locked: player.stage.lte(1)}" onclick="prevStage()">&larr;</button>&nbsp;Stage <b>{{formatWhole(player.stage)}}</b>&nbsp;<button v-bind:class="{mini: true, unlocked: player.stage.lt(player.bestStage), locked: player.stage.gte(player.bestStage)}" onclick="nextStage()">&rarr;</button><br>
+			<button v-bind:class="{mini: true, unlocked: player.stage.gt(1), locked: player.stage.lte(1)}" onclick="prevStage()">&larr;</button>&nbsp;Stage <b>{{getStageName(player.stage)}}</b>&nbsp;<button v-bind:class="{mini: true, unlocked: player.stage.lt(player.bestStage), locked: player.stage.gte(player.bestStage)}" onclick="nextStage()">&rarr;</button><br>
 			Defeated: <b>{{formatWhole(player.enemiesDefeated)}} / {{player.stage.eq(player.bestStage)?formatWhole(tmp.enemiesInStage):"&#8734;"}}</b><br><br>
 			<img v-bind:src="tmp.enemyData.img" style="width: 128px; height: 128px;"></img><br>
 			{{tmp.enemyData.name}} {{tmp.stageData.rank.gt(1) ? ("[Rk "+ formatWhole(tmp.stageData.rank) +"]") : ""}}<br>
@@ -75,7 +75,7 @@
 							{{ENEMY_DATA[id].trophyDesc?.(1) ?? "???"}}<br>
 							Cost: 50% of {{ENEMY_DATA[id].name}} Trophies (req amt: {{ formatWhole(trophySacReq(id)) }})
 						</button><br>
-						<button v-if="trophySacUnl(id)" :class="{ binary: true, enabled: !(player.trophySacDisabled[id] ?? false), disabled: player.trophySacDisabled[id] ?? false }" @click="player.trophySacDisabled[id] = !(player.trophySacDisabled[id] ?? false)">
+						<button v-if="trophySacUnl(id)" :class="{ binary: true, enabled: !(player.trophySacDisabled[id] ?? false), disabled: player.trophySacDisabled[id] ?? false }" @click="player.trophySacDisabled[id] = !(player.trophySacDisabled[id] ?? false); updateTrophyEffs(); resetStage()">
 							{{ player.trophySacDisabled[id] ? "OFF" : "ON" }}
 						</button>
 					</td>

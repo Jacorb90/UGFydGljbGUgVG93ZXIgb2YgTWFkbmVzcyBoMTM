@@ -30,15 +30,15 @@ function getTrophyMult() {
 
 function prevStage() {
 	player.stage = player.stage.sub(1).max(1);
-	player.enemiesDefeated = D(0);
-	player.damageDealt = D(0);
-	player.attackCooldown = D(0);
-	player.damageTaken = D(0);
-	player.enemyAttackCooldown = D(0);
+	resetStage();
 }
 
 function nextStage() {
 	player.stage = player.stage.plus(1).min(player.bestStage);
+	resetStage();
+}
+
+function resetStage() {
 	player.enemiesDefeated = D(0);
 	player.damageDealt = D(0);
 	player.attackCooldown = D(0);
