@@ -256,7 +256,7 @@ function getTrophyGenUpgCost(id) {
 
 function getTrophyGen(id) {
     if (Decimal.lte(player.bestiaryGenUpgs[id]||0, 0)) return D(0);
-    return Decimal.pow(Number(id)+6, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).div(2).max(0);
+    return Decimal.pow(Number(id)+6, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).div(2.5).max(0);
 }
 
 function buyTrophyGenUpg(id) {
