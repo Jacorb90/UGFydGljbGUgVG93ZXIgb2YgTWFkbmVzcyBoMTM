@@ -24,7 +24,8 @@ function loadGame() {
 	updateTemp();
 	loadVue();
 	
-	intervals.game = setInterval(function() { gameLoop(0.05 /* NaNCheck(Math.max((new Date().getTime() - player.currTime)/1000, 0)) */) }, 50)
+	intervals.game = setInterval(function() { gameLoop(0.05) }, 50)
+	intervals.offGame = setInterval(function() { offGameLoop(NaNCheck(Math.max((new Date().getTime() - player.currTime)/1000, 0))) }, 50)
 	intervals.save = setInterval(function() { if (player.autosave) save(); }, 2500)
 }
 
@@ -95,8 +96,6 @@ function attemptEnemyHeal(bulk) {
 }
 
 function gameLoop(diff) {
-	player.currTime = new Date().getTime();
-	
 	updateTemp();
 	if (player.enemyAttackCooldown.gte(Decimal.div(1, adjustEnemySPD(tmp.enemyData.spd)))) {
 		let bulk = player.enemyAttackCooldown.times(adjustEnemySPD(tmp.enemyData.spd)).floor();
@@ -131,8 +130,12 @@ function gameLoop(diff) {
 			}
 		}
 	}
+}
+
+function offGameLoop(diff) {
+	player.currTime = new Date().getTime();
 
 	for (let key in player.bestiaryGenUpgs) if (player.bestiary[key]) player.bestiary[key] = player.bestiary[key].plus(getTrophyGen(key).times(diff));
-	
+
 	player.timePlayed += diff;
 }

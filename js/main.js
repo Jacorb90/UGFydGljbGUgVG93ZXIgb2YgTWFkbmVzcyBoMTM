@@ -53,7 +53,7 @@ function getEnemyData(stage) {
 	let activeStage = stage.sub(stage.sub(1).div(totalStages).floor().times(totalStages)).toNumber();
 
 	let data = STAGE_DATA[activeStage.toString()];
-	let rank = stage.sub(1).div(totalStages).floor().times(Math.floor(totalStages / 2)).plus(stage.sub(1).sub(totalStages).div(2).floor()).plus(data[player.enemiesDefeated.toNumber()%data.length][1]);
+	let rank = stage.sub(1).div(totalStages).floor().times(Math.floor(totalStages * 2 / 3)).plus(stage.sub(1).sub(totalStages).div(2).floor().max(0)).plus(data[player.enemiesDefeated.toNumber()%data.length][1]);
 
 	let mag = Decimal.pow(2.5, rank.sub(1));
 	return {data: data, rank, mag};
