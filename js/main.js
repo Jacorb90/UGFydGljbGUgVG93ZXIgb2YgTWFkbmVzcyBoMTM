@@ -44,6 +44,8 @@ function resetStage() {
 	player.attackCooldown = D(0);
 	player.damageTaken = D(0);
 	player.enemyAttackCooldown = D(0);
+	player.enemyAttacks = D(0);
+	player.overkillDMG = D(0);
 }
 
 function getEnemyData(stage) {
@@ -51,7 +53,7 @@ function getEnemyData(stage) {
 	let activeStage = stage.sub(stage.sub(1).div(totalStages).floor().times(totalStages)).toNumber();
 
 	let data = STAGE_DATA[activeStage.toString()];
-	let rank = stage.sub(1).div(totalStages).floor().times(Math.floor(totalStages / 2)).plus(data[player.enemiesDefeated.toNumber()%data.length][1]);
+	let rank = stage.sub(1).div(totalStages).floor().times(Math.floor(totalStages / 2)).plus(stage.sub(1).sub(totalStages).div(2).floor()).plus(data[player.enemiesDefeated.toNumber()%data.length][1]);
 
 	let mag = Decimal.pow(2.5, rank.sub(1));
 	return {data: data, rank, mag};
@@ -60,6 +62,7 @@ function getEnemyData(stage) {
 function getHP() { 
 	let hp = Decimal.pow(1.5, tmp.lvl.sub(1).root(1.5)).plus(tmp.lvl.sub(2).max(0)).times(10).floor();
 	hp = hp.times(getTrophyEff(005));
+	hp = hp.times(getTrophyEff(17).sub(1).times(tmp.lvl).plus(1).max(1));
 	return hp;
 }
 

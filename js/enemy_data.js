@@ -73,7 +73,7 @@ const ENEMY_DATA = {
             if (x.gte(1e5)) x = x.sqrt().times(Math.sqrt(1e5))
             return x.div(5).plus(1).sqrt() 
         },
-        sacEff(x) { return x.div(1e12).plus(1).log10().plus(1).sqrt() },
+        sacEff(x) { return x.div(1e11).plus(1).root(5) },
         sacReq: D(8e6),
         stackType: "mult"
     },
@@ -226,6 +226,34 @@ const ENEMY_DATA = {
         sacEff(x) { return x.div(8e9).plus(1).log(7).plus(1).sqrt() },
         sacReq: D(8e9),
         stackType: "mult"
+    },
+    16: {
+        id: 16,
+        name: "W Boson",
+        hp: D("1e14"),
+        xp: D("3e14"),
+        dmg: D("1.4e9"),
+        spd: D(20),
+        img: "images/w_boson.png",
+        special: ["weaken", "extremist"],
+        trophyDesc(b) { return "+" + format(getTrophyEff(16, b).times(100)) + "% Overkill DMG" },
+        trophyEff(x) { return x.div(10).plus(1).log("1e3").plus(1).sqrt().sub(1).times(5) },
+        sacReq: D("1.6e10"),
+        stackType: "mult"
+    },
+    17: {
+        id: 17,
+        name: "Z Boson",
+        hp: D("4e14"),
+        xp: D("1e15"),
+        dmg: D("1.2e9"),
+        spd: D(20),
+        img: "images/z_boson.png",
+        special: ["neutrality"],
+        trophyDesc(b) { return "+" + format(getTrophyEff(17, b).sub(1).times(100)) + "% HP per Level (total: " + format(getTrophyEff(17, b).sub(1).times(tmp.lvl).plus(1).max(1)) + "x), but halve DMG." },
+        trophyEff(x) { return x.div(10).plus(1).root(100) },
+        sacReq: D("3.2e10"),
+        stackType: "mult"
     }
 }
 
@@ -256,7 +284,7 @@ function getTrophyGenUpgCost(id) {
 
 function getTrophyGen(id) {
     if (Decimal.lte(player.bestiaryGenUpgs[id]||0, 0)) return D(0);
-    return Decimal.pow(Number(id)+6, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).div(2.5).max(0);
+    return Decimal.pow(Number(id)+6, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).div(2.5).max(player.bestiaryGenUpgs[id]||0).max(0);
 }
 
 function buyTrophyGenUpg(id) {

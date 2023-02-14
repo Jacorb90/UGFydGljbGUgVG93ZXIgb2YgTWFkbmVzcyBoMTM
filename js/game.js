@@ -71,11 +71,12 @@ function hardReset() {
 
 function playerAtk(bulk) {
 	const isCrit = Decimal.lt(Math.random(), tmp.critChance.root(bulk));
-	let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult.max(1).sub(1).div(bulk).plus(1) : 1);
+	let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult.max(1).sub(1).div(bulk).plus(1) : 1).plus(player.overkillDMG).times(1 - tmp.enemyBlock);
 	if (tmp.enemyData.special.includes("shield") && eDmg.lt(tmp.enemyTotalHP.div(10)) && !isCrit) eDmg = D(0);
 	
 	player.damageDealt = player.damageDealt.plus(eDmg);
 	player.attackCooldown = D(0);
+	player.overkillDMG = D(0);
 
 	if (tmp.enemyData.special.includes("counter") && player.damageDealt.lt(tmp.enemyTotalHP) && Math.random() < 1 - Math.pow(0.6, bulk.toNumber())) enemyAtk(bulk.sub(1).div(5).floor().times(5).plus(1));
 }
@@ -83,6 +84,7 @@ function playerAtk(bulk) {
 function enemyAtk(bulk) {
 	player.damageTaken = player.damageTaken.plus(adjustEnemyDMG(tmp.enemyRealDMG).times(bulk));
 	player.enemyAttackCooldown = D(0);
+	player.enemyAttacks = player.enemyAttacks.plus(bulk);
 	attemptEnemyHeal(bulk);
 }
 
@@ -105,11 +107,7 @@ function gameLoop(diff) {
 	player.enemyAttackCooldown = player.enemyAttackCooldown.plus(cooldownD);
 	
 	if (player.damageTaken.gte(tmp.hp)) {
-		player.attackCooldown = D(0);
-		player.damageDealt = D(0);
-		player.damageTaken = D(0);
-		player.enemyAttackCooldown = D(0);
-		player.enemiesDefeated = D(0);
+		resetStage()
 	} else {
 		player.damageTaken = player.damageTaken.sub(getTrophyEff(007).times(diff)).max(0);
 	
@@ -120,9 +118,11 @@ function gameLoop(diff) {
 		if (!(tmp.enemyData.special.includes("stun") && Math.random()<(.5 * (1 - getTrophyEff(11).toNumber())))) player.attackCooldown = player.attackCooldown.plus(diff);
 		
 		if (player.damageDealt.gte(tmp.enemyTotalHP)) {
+			player.overkillDMG = player.overkillDMG.plus(player.damageDealt.sub(tmp.enemyTotalHP)).times(getTrophyEff(16));
 			player.xp = player.xp.plus(tmp.enemyData.xp.times(tmp.stageData.mag).times(tmp.xpMult));
 			player.damageDealt = D(0);
 			player.enemyAttackCooldown = D(0);
+			player.enemyAttacks = D(0);
 			player.enemiesDefeated = player.enemiesDefeated.plus(1);
 			player.damageTaken = player.damageTaken.sub(getTrophyEff(003)).max(0);
 			if (tmp.enemyData.trophyEff !== undefined) player.bestiary[tmp.enemyData.id] = Decimal.add(player.bestiary[tmp.enemyData.id]||0, tmp.trophyMult.times(tmp.stageData.mag));

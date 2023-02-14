@@ -11,6 +11,8 @@ function getStartPlayer() {
 		enemiesDefeated: D(0),
 		attackCooldown: D(0),
 		enemyAttackCooldown: D(0),
+		enemyAttacks: D(0),
+		overkillDMG: D(0),
 		bestiary: {},
 		bestiaryChosen: {},
 		bestiaryGenUpgs: {},

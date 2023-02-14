@@ -30,5 +30,13 @@ const ABILITY_DATA = {
     "strengthen": {
         name: "Strengthen",
         desc: "Strengthens the enemy's DMG based on enemy HP (lower HP -> strengthened more)."
+    },
+    "extremist": {
+        name: "Extremist",
+        desc: "Blocks X% of damage taken. X starts at 100, but decreases by 4 every time this enemy attacks."
+    },
+    "neutrality": {
+        name: "Neutrality",
+        desc: "Blocks X% of damage taken. X starts at 0, but increases by 4 every time this enemy attacks."
     }
 }

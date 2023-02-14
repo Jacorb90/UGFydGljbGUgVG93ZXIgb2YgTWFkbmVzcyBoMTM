@@ -16,11 +16,22 @@ function updateTemp() {
 	tmp.enemyTotalHP = adjustEnemyHP(tmp.enemyData.hp.times(tmp.stageData.mag));
 	tmp.enemyRealDMG = tmp.enemyData.dmg.times(tmp.stageData.mag);
 
+	tmp.enemyBlock = getEnemyBlock();
+
 	tmp.critChance = getTrophyEff(9);
 	tmp.critMult = D(5);
 
 	tmp.xpMult = getXPMult();
 	tmp.trophyMult = getTrophyMult();
+}
+
+function getEnemyBlock() {
+	let block = 1;
+
+	if (tmp.enemyData.special.includes("extremist")) block *= 2 - player.enemyAttacks.div(25).min(1).toNumber();
+	if (tmp.enemyData.special.includes("neutrality")) block *= 1 + player.enemyAttacks.div(25).min(1).toNumber();
+
+	return Math.min(block - 1, 1);
 }
 
 function bestStageLimitSC(n) {
@@ -39,6 +50,4 @@ function updateTrophyEffs() {
 			? ENEMY_DATA[e].sacEff(trophySacUnl(e) && !player.trophySacDisabled[e] ? (player.trophySac[e]||D(0)) : D(0)) 
 			: D(0);
 	}
-	
-		
 }
