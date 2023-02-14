@@ -73,7 +73,7 @@ const ENEMY_DATA = {
             if (x.gte(1e5)) x = x.sqrt().times(Math.sqrt(1e5))
             return x.div(5).plus(1).sqrt() 
         },
-        sacEff(x) { return x.div(3e6).plus(1).log10().plus(1).sqrt() },
+        sacEff(x) { return x.div(1e12).plus(1).log10().plus(1).sqrt() },
         sacReq: D(8e6),
         stackType: "mult"
     },
@@ -256,7 +256,7 @@ function getTrophyGenUpgCost(id) {
 
 function getTrophyGen(id) {
     if (Decimal.lte(player.bestiaryGenUpgs[id]||0, 0)) return D(0);
-    return Decimal.pow(Number(id)+6, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).div(25).max(0);
+    return Decimal.pow(Number(id)+6, Decimal.sub(player.bestiaryGenUpgs[id]||0, 1)).div(2).max(0);
 }
 
 function buyTrophyGenUpg(id) {
