@@ -28,7 +28,8 @@
 		<div v-if="tab=='Options'">
 			<table>
 				<tr>
-					<td><button class="unlocked options" onclick="toggleAutosave()">Autosave: {{player.autosave?"ON":"OFF"}}</button></td>
+					<td><button class="small unlocked options" onclick="toggleAutosave()">Autosave: {{player.autosave?"ON":"OFF"}}</button><br>
+					<button class="small unlocked options" onclick="player.offProd = !player.offProd">Offline: {{player.offProd?"ON":"OFF"}}</button></td>
 					<td><button class="small unlocked options" onclick="save()">Save</button><br>
 					<button class="small unlocked options" onclick="importSave()">Import</button></td>
 					<td><button class="small unlocked" style="background-color: #820000;" onclick="hardReset()">HARD RESET</button><br>

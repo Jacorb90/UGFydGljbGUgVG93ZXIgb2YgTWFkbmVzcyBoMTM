@@ -238,6 +238,7 @@ const ENEMY_DATA = {
         special: ["weaken", "extremist"],
         trophyDesc(b) { return "+" + format(getTrophyEff(16, b).times(100)) + "% Overkill DMG" },
         trophyEff(x) { return x.div(10).plus(1).log("1e3").plus(1).sqrt().sub(1).times(5) },
+        sacEff(x) { return x.div("2e10").plus(1).log("1e6").plus(1).sqrt().sub(1).times(5) },
         sacReq: D("1.6e10"),
         stackType: "mult"
     },
@@ -252,6 +253,7 @@ const ENEMY_DATA = {
         special: ["neutrality"],
         trophyDesc(b) { return "+" + format(getTrophyEff(17, b).sub(1).times(100)) + "% HP per Level (total: " + format(getTrophyEff(17, b).sub(1).times(tmp.lvl).plus(1).max(1)) + "x), but halve DMG." },
         trophyEff(x) { return x.div(10).plus(1).root(100) },
+        sacEff(x) { return x.div("5e10").plus(1).root(1e3) },
         sacReq: D("3.2e10"),
         stackType: "mult"
     }

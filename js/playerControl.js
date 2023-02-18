@@ -3,6 +3,7 @@ function getStartPlayer() {
 		currTime: new Date().getTime(),
 		timePlayed: 0,
 		autosave: true,
+		offProd: true,
 		xp: D(0),
 		damageTaken: D(0),
 		stage: D(1),
