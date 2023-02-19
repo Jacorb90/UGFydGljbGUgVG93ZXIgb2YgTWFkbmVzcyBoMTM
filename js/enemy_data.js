@@ -238,7 +238,7 @@ const ENEMY_DATA = {
         special: ["weaken", "extremist"],
         trophyDesc(b) { return "+" + format(getTrophyEff(16, b).times(100)) + "% Overkill DMG" },
         trophyEff(x) { return x.div(10).plus(1).log("1e3").plus(1).sqrt().sub(1).times(5) },
-        sacEff(x) { return x.div("2e10").plus(1).log("1e6").plus(1).sqrt().sub(1).times(5) },
+        sacEff(x) { return x.div("2e10").plus(1).log("1e6").plus(1).sqrt().sub(1).times(2).plus(1) },
         sacReq: D("1.6e10"),
         stackType: "mult"
     },
