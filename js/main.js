@@ -45,7 +45,6 @@ function resetStage() {
 	player.damageTaken = D(0);
 	player.enemyAttackCooldown = D(0);
 	player.enemyAttacks = D(0);
-	player.overkillDMG = D(0);
 }
 
 function getEnemyData(stage) {
@@ -92,10 +91,12 @@ function getSPD() {
 
 function adjustEnemyDMG(dmg) {
 	if (tmp.enemyData.special.includes("strengthen")) dmg = dmg.times(player.damageDealt.div(tmp.enemyTotalHP ?? 1).times(2).plus(1).pow(3));
+	if (player.bestiaryChosen[16]) dmg = dmg.times(Decimal.pow(1.1, player.enemyAttacks));
 
 	if (tmp.enemyData.special.includes("mutator")) return dmg;
 
 	dmg = dmg.div(getTrophyEff(004));
+	dmg = dmg.div(getTrophyEff(16));
 	return dmg;
 }
 

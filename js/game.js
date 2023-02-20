@@ -72,12 +72,11 @@ function hardReset() {
 
 function playerAtk(bulk) {
 	const isCrit = Decimal.lt(Math.random(), tmp.critChance.root(bulk));
-	let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult.max(1).sub(1).div(bulk).plus(1) : 1).plus(player.overkillDMG).times(1 - tmp.enemyBlock);
+	let eDmg = tmp.dmg.times(bulk).times(isCrit ? tmp.critMult.max(1).sub(1).div(bulk).plus(1) : 1).times(1 - tmp.enemyBlock);
 	if (tmp.enemyData.special.includes("shield") && eDmg.lt(tmp.enemyTotalHP.div(10)) && !isCrit) eDmg = D(0);
 	
 	player.damageDealt = player.damageDealt.plus(eDmg);
 	player.attackCooldown = D(0);
-	player.overkillDMG = D(0);
 
 	if (tmp.enemyData.special.includes("counter") && player.damageDealt.lt(tmp.enemyTotalHP) && Math.random() < 1 - Math.pow(0.6, bulk.toNumber())) enemyAtk(bulk.sub(1).div(5).floor().times(5).plus(1));
 }
@@ -117,7 +116,6 @@ function gameLoop(diff) {
 		if (!(tmp.enemyData.special.includes("stun") && Math.random()<(.5 * (1 - getTrophyEff(11).toNumber())))) player.attackCooldown = player.attackCooldown.plus(diff);
 		
 		if (player.damageDealt.gte(tmp.enemyTotalHP)) {
-			player.overkillDMG = player.overkillDMG.plus(player.damageDealt.sub(tmp.enemyTotalHP)).times(getTrophyEff(16));
 			player.xp = player.xp.plus(tmp.enemyData.xp.times(tmp.stageData.mag).times(tmp.xpMult));
 			player.damageDealt = D(0);
 			player.enemyAttackCooldown = D(0);
