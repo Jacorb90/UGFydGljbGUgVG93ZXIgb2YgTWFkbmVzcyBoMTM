@@ -286,3 +286,7 @@ button.binary:hover {
     filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
 }
+
+img {
+	transition-duration: 0s !important;
+}

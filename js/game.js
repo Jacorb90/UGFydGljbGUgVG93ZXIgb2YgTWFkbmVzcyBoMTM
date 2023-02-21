@@ -122,7 +122,14 @@ function gameLoop(diff) {
 			player.enemyAttacks = D(0);
 			player.enemiesDefeated = player.enemiesDefeated.plus(1);
 			player.damageTaken = player.damageTaken.sub(getTrophyEff(003)).max(0);
-			if (tmp.enemyData.trophyEff !== undefined) player.bestiary[tmp.enemyData.id] = Decimal.add(player.bestiary[tmp.enemyData.id]||0, tmp.trophyMult.times(tmp.stageData.mag));
+			if (tmp.enemyData.trophyEff !== undefined || tmp.enemyData.mutates) {
+				const id = tmp.enemyData.mutates ?? tmp.enemyData.id;
+				const gain = tmp.trophyMult.times(tmp.stageData.mag).times(tmp.enemyData.trophyMult ?? 1);
+				player.bestiary[id] = Decimal.add(player.bestiary[id]||0, gain);
+				if (tmp.enemyData.mutates) {
+					player.trophySac[id] = tmp.trophySacRatio.times(gain).plus(player.trophySac[id] ?? 0);
+				}
+			}
 			if (player.enemiesDefeated.gte(tmp.enemiesInStage) && player.stage.eq(player.bestStage)) {
 				player.bestStage = player.bestStage.plus(1);
 			}

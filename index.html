@@ -49,8 +49,8 @@
 			DMG: <b>{{formatWhole(tmp.dmg)}}</b>, SPD: <b>{{format(tmp.spd)}}</b><br><br><br>
 			<button v-bind:class="{mini: true, unlocked: player.stage.gt(1), locked: player.stage.lte(1)}" onclick="prevStage()">&larr;</button>&nbsp;Stage <b>{{getStageName(player.stage)}}</b>&nbsp;<button v-bind:class="{mini: true, unlocked: player.stage.lt(player.bestStage), locked: player.stage.gte(player.bestStage)}" onclick="nextStage()">&rarr;</button><br>
 			Defeated: <b>{{formatWhole(player.enemiesDefeated)}} / {{player.stage.eq(player.bestStage)?formatWhole(tmp.enemiesInStage):"&#8734;"}}</b><br><br>
-			<img v-bind:src="tmp.enemyData.img" style="width: 128px; height: 128px;"></img><br>
-			{{tmp.enemyData.name}} {{tmp.stageData.rank.gt(1) ? ("[Rk "+ formatWhole(tmp.stageData.rank) +"]") : ""}}<br>
+			<img v-bind:src="tmp.enemyData.img" v-bind:style="{filter: tmp.enemyData.filter ?? 'none'}" style="width: 128px; height: 128px;"></img><br>
+			<span v-bind:style="{color: tmp.enemyData.nameColor ?? 'white', filter: tmp.enemyData.filter ?? 'none'}">{{tmp.enemyData.name}} {{tmp.stageData.rank.gt(1) ? ("[Rk "+ formatWhole(tmp.stageData.rank) +"]") : ""}}</span><br>
 			HP: <b>{{formatWhole(tmp.enemyTotalHP.sub(player.damageDealt).max(0))}} / {{formatWhole(tmp.enemyTotalHP)}}</b><br>
 			DMG: <b>{{formatWhole(adjustEnemyDMG(tmp.enemyRealDMG))}}</b>, SPD: <b>{{format(adjustEnemySPD(tmp.enemyData.spd))}}</b><br>
 			<span v-if="tmp.enemyData.special.length > 0">

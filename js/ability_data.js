@@ -13,7 +13,7 @@ const ABILITY_DATA = {
     },
     "agile": {
         name: "Agile",
-        desc: "Improves enemy SPD based on enemy HP (lower HP -> higher SPD, up to 3x)."
+        desc: "Skips enemy attack cooldown based on enemy HP (lower HP -> higher effective SPD, up to 3x)."
     },
     "mutator": {
         name: "Mutator",

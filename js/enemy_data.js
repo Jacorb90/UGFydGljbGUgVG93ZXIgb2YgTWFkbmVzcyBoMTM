@@ -256,6 +256,22 @@ const ENEMY_DATA = {
         sacEff(x) { return x.div("5e10").plus(1).root(1e3) },
         sacReq: D("3.2e10"),
         stackType: "mult"
+    },
+
+    // [PLACEHOLDER ENEMY; for testing mutations]
+    18: {
+        id: 18,
+        name: "Up Quark α",
+        hp: D("1e17"),
+        xp: D("2e17"),
+        dmg: D("1e9"),
+        spd: D(40),
+        img: "images/up_quark.png",
+        special: ["agile", "strengthen"],
+        mutates: 001, // id of mutated
+        filter: "hue-rotate(90deg)", // filters enemy img & name text, only for mutations
+        nameColor: "#CD9DFF", // sets name text initial color (before filters), only for mutations
+        trophyMult: D("2e16") // multiplier to trophy gain, only for mutations
     }
 }
 

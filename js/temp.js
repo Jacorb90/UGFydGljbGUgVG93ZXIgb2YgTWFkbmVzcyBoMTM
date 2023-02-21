@@ -23,6 +23,8 @@ function updateTemp() {
 
 	tmp.xpMult = getXPMult();
 	tmp.trophyMult = getTrophyMult();
+
+	tmp.trophySacRatio = trophySacRatio();
 }
 
 function getEnemyBlock() {

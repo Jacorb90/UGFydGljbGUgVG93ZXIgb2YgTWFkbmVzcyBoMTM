@@ -17,7 +17,7 @@ function canTrophySac(id) {
 function trophySac(id) {
     if (!canTrophySac(id)) return;
 
-    player.trophySac[id] = trophySacRatio().times(player.bestiary[id].div(2)).plus(player.trophySac[id] ?? 0);
+    player.trophySac[id] = tmp.trophySacRatio.times(player.bestiary[id].div(2)).plus(player.trophySac[id] ?? 0);
     player.bestiary[id] = player.bestiary[id].div(2);
 
     updateTrophyEffs();
