@@ -97,6 +97,7 @@ function adjustEnemyDMG(dmg) {
 
 	dmg = dmg.div(getTrophyEff(004));
 	dmg = dmg.div(getTrophyEff(16));
+	dmg = dmg.div(getTrophyEff(006, 4));
 	return dmg;
 }
 
@@ -105,7 +106,8 @@ function adjustEnemySPD(spd) {
 
 	if (tmp.enemyData.special.includes("mutator")) return spd;
 
-	spd = spd.div(getTrophyEff(006));
+	spd = spd.div(getTrophyEff(006, 3));
+	spd = spd.times(getTrophyEff(006, 4).pow(0.75));
 	return spd;
 }
 

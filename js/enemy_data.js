@@ -88,6 +88,7 @@ const ENEMY_DATA = {
         special: [],
         trophyDesc(b) { return "Divides Enemy SPD by "+format(getTrophyEff(006, b)) },
         trophyEff(x) { return x.div(10).plus(1).log10().plus(1) },
+        sacDesc(b) { return "Divides Enemy DMG by "+format(getTrophyEff(006, b))+", but multiplies Enemy SPD by "+format(getTrophyEff(006, b).pow(0.75)) },
         sacEff(x) { return x.div(1e7).plus(1).log10().plus(1).sqrt() },
         sacReq: D(1.6e7),
         stackType: "mult"
@@ -292,6 +293,8 @@ function fuseEffects(e1, e2, type) {
 function getTrophyEff(id, b = 2) { 
     if (b == 0) return ENEMY_DATA[id]?.trophyEff?.(player.bestiary[id]||D(0));
     if (b == 1) return ENEMY_DATA[id]?.sacEff?.(player.trophySac[id]||D(0));
+    if (b == 3) return tmp.trophyEff[id];
+    if (b == 4) return tmp.sacTrophyEff[id];
 
     return fuseEffects(tmp.trophyEff[id], tmp.sacTrophyEff[id], ENEMY_DATA[id].stackType)
 };
